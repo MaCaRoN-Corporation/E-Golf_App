@@ -1,0 +1,8 @@
+{
+  "name": "E-Golf App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "386aba68"
+}
