@@ -27,6 +27,7 @@ pipeline {
         stage('Creation Sign Bundle') {
             steps {
                 sh './gradlew bundleRelease'
+                sh 'cd D:\\Fichier\\Code\\Represitories\\E-Golf_App\\Application\\android\\app\\build\\outputs\\bundle\\release'
             }
         }
 
