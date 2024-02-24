@@ -1,0 +1,51 @@
+/* groovylint-disable-next-line CompileStatic */
+pipeline {
+    agent any
+    environment {
+        PATH = '/usr/local/bin:/usr/bin:/bin'
+    }
+    stages
+   {
+        stage('NPM Setup') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Ionic Build') {
+            steps {
+                sh 'ionic build'
+            }
+        }
+
+        stage('Android Build') {
+            steps {
+                sh 'ionic capacitor build android'
+            }
+        }
+
+        stage('Creation Sign Bundle') {
+            steps {
+                sh './gradlew bundleRelease'
+            }
+        }
+
+        // stage('Stage Web Build') {
+        //     steps {
+        //         sh 'npm run build --prod'
+        //     }
+        // }
+
+        // stage('Publish Firebase Web') {
+        //     steps {
+        //         sh 'firebase deploy --token "Your Token Key"'
+        //     }
+        // }
+
+        // stage('Publish Android') {
+        //     steps {
+        //         echo 'Publish Android API Action'
+        //     }
+        // }
+   }
+}
