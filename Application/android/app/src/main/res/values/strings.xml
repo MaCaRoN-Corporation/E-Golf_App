@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">E-Golf App</string>
+    <string name="title_activity_main">E-Golf App</string>
+    <string name="package_name">com.macaron.egolfapp</string>
+    <string name="custom_url_scheme">com.macaron.egolfapp</string>
+</resources>
