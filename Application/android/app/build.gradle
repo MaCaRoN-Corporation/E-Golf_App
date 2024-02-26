@@ -3,12 +3,58 @@ apply plugin: 'com.android.application'
 android {
   namespace "com.macaron.egolfapp"
   compileSdkVersion rootProject.ext.compileSdkVersion
+
+  // ######################## BEGIN ########################
+  // #### AUTO GENERATION VERSION_CODE AND VERSION_NAME ####
+  // ######################## BEGIN ########################
+
+  def _versionCode = 0
+  def _major = 0
+  def _minor = 0
+  def _patch = 0
+
+  def versionPropsFile = file('version.properties')
+  if (versionPropsFile.canRead()) {
+    def Properties versionProps = new Properties()
+
+    versionProps.load(new FileInputStream(versionPropsFile))
+
+    _patch = versionProps['PATCH'].toInteger() + 1
+    _major = versionProps['MAJOR'].toInteger()
+    _minor = versionProps['MINOR'].toInteger()
+    _versionCode = versionProps['VERSION_CODE'].toInteger() + 1
+
+    if (_patch == 100) {
+      _patch = 0
+      _minor = _minor + 1
+    }
+    if (_minor == 10) {
+      _minor = 0
+      _major = _major + 1
+    }
+
+    versionProps['MAJOR'] = _major.toString()
+    versionProps['MINOR'] = _minor.toString()
+    versionProps['PATCH'] = _patch.toString()
+    versionProps['VERSION_CODE'] = _versionCode.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+  } else {
+    throw new GradleException("Could not read version.properties!")
+  }
+
+  def _versionName = "${_major}.${_minor}.${_patch}(${_versionCode})"
+  setProperty("archivesBaseName", "E-Golf App v." + ${versionName})
+
+  // ######################### END #########################
+  // #### AUTO GENERATION VERSION_CODE AND VERSION_NAME ####
+  // ######################### END #########################
+
   defaultConfig {
     applicationId "com.macaron.egolfapp"
     minSdkVersion rootProject.ext.minSdkVersion
     targetSdkVersion rootProject.ext.targetSdkVersion
-    versionCode 3
-    versionName "1.002"
+    versionCode _versionCode
+    versionName _versionName
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     aaptOptions {
       // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -20,7 +66,16 @@ android {
     release {
       // You need to specify either an absolute path or include the
       // keystore file in the same directory as the build.gradle file.
-      storeFile file("D:\\Fichier\\Code\\Represitories\\E-Golf_App\\Application\\egoflapp_certificate.jks")
+      //storeFile file("D:\\Fichier\\Code\\Represitories\\E-Golf_App\\Application\\egoflapp_certificate.jks")
+      storeFile file("egoflapp_certificate.jks")
+      storePassword "Pabaq438"
+      keyAlias "egolfapp"
+      keyPassword "Pabaq438"
+    }
+    debug {
+      // You need to specify either an absolute path or include the
+      // keystore file in the same directory as the build.gradle file.
+      storeFile file("egoflapp_certificate.jks")
       storePassword "Pabaq438"
       keyAlias "egolfapp"
       keyPassword "Pabaq438"
@@ -28,7 +83,14 @@ android {
   }
   buildTypes {
     release {
+      buildDir = "../../Releases/release_version/"
       signingConfig signingConfigs.release
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+    debug {
+      buildDir = "../../Releases/debug_version/"
+      signingConfig signingConfigs.debug
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
