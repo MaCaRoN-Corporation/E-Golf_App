@@ -26,8 +26,15 @@ pipeline {
 
         stage('Creation Sign Bundle') {
             steps {
+                echo 'TODO: Edit android<app<version.properties ==> VERSION_TYPE (release/debug)'
                 sh './gradlew bundleRelease'
-                sh 'cd Application\\android\\app\\build\\outputs\\bundle\\release'
+                echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+            }
+        }
+
+        stage('Deploiement Sign Bundle') {
+            steps {
+                echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
             }
         }
 
