@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.macaron.egolfapp',
   appName: 'E-Golf App',
   webDir: 'www',
   server: {
