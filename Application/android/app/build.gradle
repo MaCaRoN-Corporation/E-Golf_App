@@ -4,6 +4,8 @@ android {
   namespace "com.macaron.egolfapp"
   compileSdkVersion rootProject.ext.compileSdkVersion
 
+  // apply from: '../.scripts/build-bundle.java'
+
   // ######################## BEGIN ########################
   // #### AUTO GENERATION VERSION_CODE AND VERSION_NAME ####
   // ######################## BEGIN ########################
@@ -13,7 +15,7 @@ android {
   def _minor = 0
   def _patch = 0
 
-  def versionPropsFile = file('version.properties')
+  def versionPropsFile = file('version.properties.txt')
   if (versionPropsFile.canRead()) {
     def Properties versionProps = new Properties()
 
@@ -55,6 +57,17 @@ android {
   applicationVariants.all { variant ->
     variant.outputs.all {
       def taskSuffix = variant.name.capitalize()
+
+      // def copyOldAABTask = tasks.create(name: "archiveOldAab${taskSuffix}", type: Copy) {      
+      //   if (_versionType == "debug") {
+      //     from("../../Releases/beta_version") { include "**/*.aab" }into { "../../Releases/beta_version/old_version" }
+      //   } else if (_versionType == "release") {
+      //     from("../../Releases/release_version") { include "*/*.aab" }into { "../../Releases/release_version/old_version" }
+      //   }
+      //   eachFile { file -> file.path = file.name }
+      //   includeEmptyDirs = false
+      // }
+
       def copyAABTask = tasks.create(name: "archiveAab${taskSuffix}", type: Copy) {
         from("${projectDir}") {
           include "/build/outputs/bundle/release/E-Golf App v." + _versionName + "-release.aab"
@@ -75,6 +88,7 @@ android {
       def bundleTaskName = "bundle${taskSuffix}"
       println "Bundle task name: " + bundleTaskName
       if (tasks.findByName(bundleTaskName)) {
+        // tasks[bundleTaskName].finalizedBy = [copyOldAABTask]
         tasks[bundleTaskName].finalizedBy = [copyAABTask]
       }
     }
