@@ -57,38 +57,34 @@ android {
   applicationVariants.all { variant ->
     variant.outputs.all {
       def taskSuffix = variant.name.capitalize()
-
-      // def copyOldAABTask = tasks.create(name: "archiveOldAab${taskSuffix}", type: Copy) {      
-      //   if (_versionType == "debug") {
-      //     from("../../Releases/beta_version") { include "**/*.aab" }into { "../../Releases/beta_version/old_version" }
-      //   } else if (_versionType == "release") {
-      //     from("../../Releases/release_version") { include "*/*.aab" }into { "../../Releases/release_version/old_version" }
-      //   }
-      //   eachFile { file -> file.path = file.name }
-      //   includeEmptyDirs = false
-      // }
-
       def copyAABTask = tasks.create(name: "archiveAab${taskSuffix}", type: Copy) {
-        from("${projectDir}") {
-          include "/build/outputs/bundle/release/E-Golf App v." + _versionName + "-release.aab"
-        }
-        into {
-          if (_versionType == "debug") {
-            //variant.buildType.name == "debug"
-            "../../Releases/beta_version/"
-          } else if (_versionType == "release") {
-            //variant.buildType.name == "release"
-            "../../Releases/release_version/"
+          from("${projectDir}") {
+            include "/build/outputs/bundle/release/E-Golf App v." + _versionName + "-release.aab"
           }
-        }
-        eachFile { file -> file.path = file.name }
-        includeEmptyDirs = false
+          into {
+            if (_versionType == "debug") {
+              //variant.buildType.name == "debug"
+              "../../Releases/beta_versions/"
+            } else if (_versionType == "release") {
+              //variant.buildType.name == "release"
+              "../../Releases/release_versions/"
+            }
+          }
+          eachFile { file -> file.path = file.name }
+          includeEmptyDirs = false
       }
 
+      copyAABTask.doFirst {
+        if (_versionType == "debug") {
+          ant.move(file: "../../Releases/beta_versions", tofile: "../../Releases/beta_versions/old_version", flatten: "true", includeEmptyDirs: "false")
+        } else if (_versionType == "release") {
+          ant.move(file: "../../Releases/release_versions", tofile: "../../Releases/release_versions/old_version", flatten: "true", includeEmptyDirs: "false")
+        }
+      }
+      
       def bundleTaskName = "bundle${taskSuffix}"
       println "Bundle task name: " + bundleTaskName
       if (tasks.findByName(bundleTaskName)) {
-        // tasks[bundleTaskName].finalizedBy = [copyOldAABTask]
         tasks[bundleTaskName].finalizedBy = [copyAABTask]
       }
     }
