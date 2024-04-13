@@ -24,7 +24,7 @@ try {
 
     stage('Creation Sign Bundle') {
         steps {
-            sh 'cd /android'
+            sh 'cd Application/android'
             echo 'Moving old version into folder ...'
             echo 'Creation of new Sign Bundle AAB ...'
             sh './gradlew bundleRelease prepareBundle'
