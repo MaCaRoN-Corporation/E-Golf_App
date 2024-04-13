@@ -33,6 +33,8 @@ pipeline {
                 echo 'Commiting and pushing...'
                 sh 'cd ..'
                 sh 'git add *'
+                sh 'git commit auto-publish commit'
+                sh 'git push'
             }
         }
 
