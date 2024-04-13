@@ -4,7 +4,7 @@
 
 # Branch
 branch="$(git rev-parse --abbrev-ref HEAD)"
-branch="main"
+branch="dev"
 
 echo ""
 echo "Current Branch: $branch"

@@ -31,8 +31,8 @@ task clean(type: Delete) {
 task("prepareBundle") {
     println("⚈ ⚈ ⚈ Running prepareBundle ⚈ ⚈ ⚈")
     exec {
-             commandLine("sh", "./.scripts/edit-properties.sh")
-            //  commandLine("java", "./.scripts/build-bundle.java")
-         }
+      commandLine("sh", "./.scripts/edit-properties.sh")
+      //  commandLine("java", "./.scripts/build-bundle.java")
+    }
     println("✅ prepareBundle.")
 }

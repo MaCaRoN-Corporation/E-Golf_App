@@ -1,34 +1,35 @@
-/* groovylint-disable-next-line CompileStatic */
+# /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
-    environment {
-        PATH = '/usr/local/bin:/usr/bin:/bin'
-    }
+    # agent any
+    # environment {
+    #     PATH = '/usr/local/bin:/usr/bin:/bin'
+    # }
     stages
    {
-        stage('NPM Setup') {
-            steps {
-                sh 'npm install'
-            }
-        }
+        # stage('NPM Setup') {
+        #     steps {
+        #         sh 'npm install'
+        #     }
+        # }
 
-        stage('Ionic Build') {
-            steps {
-                sh 'ionic build'
-            }
-        }
+        # stage('Ionic Build') {
+        #     steps {
+        #         sh 'ionic build'
+        #     }
+        # }
 
-        stage('Android Build') {
-            steps {
-                sh 'ionic capacitor build android'
-            }
-        }
+        # stage('Android Build') {
+        #     steps {
+        #         sh 'ionic capacitor build android'
+        #     }
+        # }
 
         stage('Creation Sign Bundle') {
             steps {
                 sh 'cd /android'
+                echo 'Moving old version into folder ...'
+                echo 'Creation of new Sign Bundle AAB ...'
                 sh './gradlew bundleRelease prepareBundle'
-                echo 'Moving old version into folder'
                 echo 'Commiting and pushing...'
             }
         }
@@ -36,20 +37,9 @@ pipeline {
         stage('Deploiement Sign Bundle') {
             steps {
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+                echo 'Publishing Android Bundle in Play Store ...'
             }
         }
-
-        // stage('Stage Web Build') {
-        //     steps {
-        //         sh 'npm run build --prod'
-        //     }
-        // }
-
-        // stage('Publish Firebase Web') {
-        //     steps {
-        //         sh 'firebase deploy --token "Your Token Key"'
-        //     }
-        // }
 
         // stage('Publish Android') {
         //     steps {

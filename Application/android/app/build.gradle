@@ -18,7 +18,6 @@ android {
   def versionPropsFile = file('version.properties.txt')
   if (versionPropsFile.canRead()) {
     def Properties versionProps = new Properties()
-
     versionProps.load(new FileInputStream(versionPropsFile))
 
     _patch = versionProps['PATCH'].toInteger() + 1
@@ -81,7 +80,7 @@ android {
           ant.move(file: "../../Releases/release_versions", tofile: "../../Releases/release_versions/old_version", flatten: "true", includeEmptyDirs: "false")
         }
       }
-      
+
       def bundleTaskName = "bundle${taskSuffix}"
       println "Bundle task name: " + bundleTaskName
       if (tasks.findByName(bundleTaskName)) {
