@@ -31,6 +31,8 @@ pipeline {
                 echo 'Creation of new Sign Bundle AAB ...'
                 sh './gradlew bundleRelease prepareBundle'
                 echo 'Commiting and pushing...'
+                sh 'cd ..'
+                sh 'git add *'
             }
         }
 
