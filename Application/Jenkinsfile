@@ -1,54 +1,53 @@
-# /* groovylint-disable-next-line CompileStatic */
-pipeline {
-    # agent any
-    # environment {
-    #     PATH = '/usr/local/bin:/usr/bin:/bin'
-    # }
-    stages
-   {
-        # stage('NPM Setup') {
-        #     steps {
-        #         sh 'npm install'
-        #     }
-        # }
+/* groovylint-disable-next-line CompileStatic */
+try {
+    // agent any
+    // environment {
+    //     PATH = '/usr/local/bin:/usr/bin:/bin'
+    // }
+    // stage('NPM Setup') {
+    //     steps {
+    //         sh 'npm install'
+    //     }
+    // }
 
-        # stage('Ionic Build') {
-        #     steps {
-        #         sh 'ionic build'
-        #     }
-        # }
+    // stage('Ionic Build') {
+    //     steps {
+    //         sh 'ionic build'
+    //     }
+    // }
 
-        # stage('Android Build') {
-        #     steps {
-        #         sh 'ionic capacitor build android'
-        #     }
-        # }
+    // stage('Android Build') {
+    //     steps {
+    //         sh 'ionic capacitor build android'
+    //     }
+    // }
 
-        stage('Creation Sign Bundle') {
-            steps {
-                sh 'cd /android'
-                echo 'Moving old version into folder ...'
-                echo 'Creation of new Sign Bundle AAB ...'
-                sh './gradlew bundleRelease prepareBundle'
-                echo 'Commiting and pushing...'
-                sh 'cd ..'
-                sh 'git add *'
-                sh 'git commit -m "auto-publish commit"'
-                sh 'git push'
-            }
+    stage('Creation Sign Bundle') {
+        steps {
+            sh 'cd /android'
+            echo 'Moving old version into folder ...'
+            echo 'Creation of new Sign Bundle AAB ...'
+            sh './gradlew bundleRelease prepareBundle'
+            echo 'Commiting and pushing...'
+            sh 'cd ..'
+            sh 'git add *'
+            sh 'git commit -m "auto-publish commit"'
+            sh 'git push'
         }
+    }
 
-        stage('Deploiement Sign Bundle') {
-            steps {
-                echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
-                echo 'Publishing Android Bundle in Play Store ...'
-            }
+    stage('Deploiement Sign Bundle') {
+        steps {
+            echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+            echo 'Publishing Android Bundle in Play Store ...'
         }
+    }
 
-        // stage('Publish Android') {
-        //     steps {
-        //         echo 'Publish Android API Action'
-        //     }
-        // }
-   }
+    stage('Publish Android') {
+        steps {
+            echo 'Publish Android API Action'
+        }
+    }
+} catch (error) {
+    throw error
 }
