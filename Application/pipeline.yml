@@ -35,7 +35,6 @@ pipeline {
                 sh 'git add *'
                 sh 'git commit -m "auto-publish commit"'
                 sh 'git push'
-                
             }
         }
 
