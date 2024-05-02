@@ -29,7 +29,7 @@ pipeline {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 bat '''cd Application/android
-                gradlew bundleRelease prepareBundle'''
+                call gradlew bundleRelease prepareBundle'''
                 echo 'Commiting and pushing...'
             }
         }
