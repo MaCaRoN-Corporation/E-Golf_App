@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                sh '''cd Application/android
+                sh label: '', script: '''cd Application/android
                 ./gradlew bundleRelease prepareBundle'''
             }
         }
