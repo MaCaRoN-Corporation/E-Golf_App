@@ -26,12 +26,12 @@ pipeline {
     stages {
         stage('Creation Sign Bundle') {
         steps {
-            bat 'cd Application/android'
             echo 'Moving old version into folder ...'
             echo 'Creation of new Sign Bundle AAB ...'
-            bat 'start "gradlew bundleRelease prepareBundle"'
+            bat '''cd Application/android
+            start gradlew bundleRelease prepareBundle'''
             echo 'Commiting and pushing...'
-            bat '''cd ..
+            bat '''cd Application
             git add *
             git commit -m "auto-publish commit"
             git push'''
