@@ -46,16 +46,16 @@ pipeline {
         }
 
         stage('Deploiement Sign Bundle') {
-        steps {
-            echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
-            echo 'Publishing Android Bundle in Play Store ...'
-        }
+            steps {
+                echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+                echo 'Publishing Android Bundle in Play Store ...'
+            }
         }
 
         stage('Publish Android') {
-        steps {
-            echo 'Publish Android API Action'
-        }
+            steps {
+                echo 'Publish Android API Action'
+            }
         }
     }
 }
