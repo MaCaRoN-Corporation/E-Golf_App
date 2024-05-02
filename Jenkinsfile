@@ -1,49 +1,49 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     agent any
-    // agent any
     // environment {
     //     PATH = '/usr/local/bin:/usr/bin:/bin'
     // }
-    // stage('NPM Setup') {
-    //     steps {
-    //         sh 'npm install'
-    //     }
-    // }
 
-    // stage('Ionic Build') {
-    //     steps {
-    //         sh 'ionic build'
-    //     }
-    // }
+    stage('NPM Setup') {
+        steps {
+            sh 'npm install'
+        }
+    }
 
-    // stage('Android Build') {
-    //     steps {
-    //         sh 'ionic capacitor build android'
-    //     }
-    // }
+    stage('Ionic Build') {
+        steps {
+            sh 'ionic build'
+        }
+    }
+
+    stage('Android Build') {
+        steps {
+            sh 'ionic capacitor build android'
+        }
+    }
 
     stages {
         stage('Creation Sign Bundle') {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --no-daemon'
+                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
             }
         }
 
-        // stage('GIT Update') {
-        //     steps {
-        //         echo 'Commiting and pushing...'
-        //         withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-        //             bat '''cd Application
-        //             git config --global --add --bool push.autoSetupRemote true
-        //             git add *
-        //             git commit -m "auto-publish commit"
-        //             git push'''
-        //         }
-        //     }
-        // }
+        stage('GIT Update') {
+            steps {
+                echo 'Commiting and pushing...'
+                // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                //     bat '''cd Application
+                //     git config --global --add --bool push.autoSetupRemote true
+                //     git add *
+                //     git commit -m "auto-publish commit"
+                //     git push'''
+                // }
+            }
+        }
 
         stage('Deploiement Sign Bundle') {
             steps {
