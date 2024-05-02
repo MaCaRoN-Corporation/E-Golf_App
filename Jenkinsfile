@@ -28,14 +28,22 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                bat '''cd Application/android
-                call gradlew bundleRelease prepareBundle'''
-                echo 'Commiting and pushing...'
+                // bat '''cd Application/android
+                // call gradlew bundleRelease prepareBundle'''
+            }
+            script {
+                def msg = sh(returnStdout: false, 
+                    label: "THIS SHOULD DISPLAY",
+                    script: '''cd Application/android
+                    call gradlew bundleRelease prepareBundle''')
             }
         }
 
         // stage('GIT Update') {
         //     steps {
+        //         steps {
+        //             echo 'Commiting and pushing...'
+        //         }
         //         withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
         //             bat '''cd Application
         //             git add *
