@@ -33,19 +33,19 @@ pipeline {
             }
         }
 
-        // stage('GIT Update') {
-        //     steps {
-        //         steps {
-        //             echo 'Commiting and pushing...'
-        //         }
-        //         withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-        //             bat '''cd Application
-        //             git add *
-        //             git commit -m "auto-publish commit"
-        //             git push'''
-        //         }
-        //     }
-        // }
+        stage('GIT Update') {
+            steps {
+                steps {
+                    echo 'Commiting and pushing...'
+                }
+                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    bat '''cd Application
+                    git add *
+                    git commit -m "auto-publish commit"
+                    git push'''
+                }
+            }
+        }
 
         stage('Deploiement Sign Bundle') {
         steps {
