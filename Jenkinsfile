@@ -28,14 +28,8 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                // bat '''cd Application/android
-                // call gradlew bundleRelease prepareBundle'''
-            }
-            script {
-                def msg = sh(returnStdout: false, 
-                    label: "THIS SHOULD DISPLAY",
-                    script: '''cd Application/android
-                    call gradlew bundleRelease prepareBundle''')
+                sh '''cd Application/android
+                ./gradlew bundleRelease prepareBundle'''
             }
         }
 
