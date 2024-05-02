@@ -28,10 +28,7 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                script {
-                    def output = sh(script: '.\\Application\\android\\gradlew bundleRelease prepareBundle', returnStdout : true)
-                    echo "Output: ${output}"
-                }
+                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --no-daemon'
             }
         }
 
