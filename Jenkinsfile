@@ -29,21 +29,21 @@ pipeline {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 bat '''cd Application/android
-                start gradlew bundleRelease prepareBundle'''
+                start ./gradlew bundleRelease prepareBundle'''
                 echo 'Commiting and pushing...'
             }
         }
 
-        stage('GIT Update') {
-            steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    bat '''cd Application
-                    git add *
-                    git commit -m "auto-publish commit"
-                    git push'''
-                }
-            }
-        }
+        // stage('GIT Update') {
+        //     steps {
+        //         withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+        //             bat '''cd Application
+        //             git add *
+        //             git commit -m "auto-publish commit"
+        //             git push'''
+        //         }
+        //     }
+        // }
 
         stage('Deploiement Sign Bundle') {
         steps {
