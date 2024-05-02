@@ -38,6 +38,7 @@ pipeline {
                 echo 'Commiting and pushing...'
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     bat '''cd Application
+                    git config --global --add --bool push.autoSetupRemote true
                     git add *
                     git commit -m "auto-publish commit"
                     git push'''
