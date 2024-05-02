@@ -35,9 +35,7 @@ pipeline {
 
         stage('GIT Update') {
             steps {
-                steps {
-                    echo 'Commiting and pushing...'
-                }
+                echo 'Commiting and pushing...'
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     bat '''cd Application
                     git add *
