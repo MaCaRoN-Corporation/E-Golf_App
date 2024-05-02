@@ -28,10 +28,10 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
-                    sh '''cd Application/android
-                    ./gradlew bundleRelease prepareBundle'''
-                }
+                sh(script: '''cd Application/android
+                ./gradlew bundleRelease prepareBundle''',
+                returnStatus : true,
+                returnStdout : true)
             }
         }
 
