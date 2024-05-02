@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                withCredentials() {
+                withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
                     sh '''cd Application/android
                     ./gradlew bundleRelease prepareBundle'''
                 }
