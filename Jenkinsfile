@@ -5,25 +5,28 @@ pipeline {
     //     PATH = '/usr/local/bin:/usr/bin:/bin'
     // }
 
-    stage('NPM Setup') {
-        steps {
-            sh 'npm install'
-        }
-    }
-
-    stage('Ionic Build') {
-        steps {
-            sh 'ionic build'
-        }
-    }
-
-    stage('Android Build') {
-        steps {
-            sh 'ionic capacitor build android'
-        }
-    }
-
     stages {
+        stage('NPM Setup') {
+            steps {
+                echo 'NPM Install ...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Ionic Build') {
+            steps {
+                echo 'Ionic Build ...'
+                sh 'ionic build'
+            }
+        }
+
+        stage('Android Build') {
+            steps {
+                echo 'Build Ionic Capacitor ...'
+                sh 'ionic capacitor build android'
+            }
+        }
+
         stage('Creation Sign Bundle') {
             steps {
                 echo 'Moving old version into folder ...'
