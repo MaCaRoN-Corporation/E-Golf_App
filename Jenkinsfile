@@ -28,11 +28,13 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                def output = sh(script: '''cd Application/android
-                ./gradlew bundleRelease prepareBundle''',
-                returnStatus : true,
-                returnStdout : true)
-                echo "Output: ${output}"
+                script {
+                    def output = sh(script: '''cd Application/android
+                    ./gradlew bundleRelease prepareBundle''',
+                    returnStatus : true,
+                    returnStdout : true)
+                    echo "Output: ${output}"
+                }
             }
         }
 
