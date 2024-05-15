@@ -30,8 +30,9 @@ pipeline {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 sh 'gradle clean build'
-                // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
-                gradle ('bundleRelease prepareBundle')
+                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
+                bat '''ls Application/Releases/beta_versions/'''
+                bat '''ls Application/Releases/release_versions'''
             }
         }
 
