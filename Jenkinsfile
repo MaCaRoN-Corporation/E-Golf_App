@@ -81,6 +81,8 @@ def VERSION_TYPE
 
 node {
     withGradle {
-        sh './gradlew bundleRelease prepareBundle'
+        sh './gradlew bundleRelease prepareBundle --scan'
+        bat '''ls Application/Releases/beta_versions/'''
+        bat '''ls Application/Releases/release_versions'''
     }
 }
