@@ -1,8 +1,26 @@
 pipeline {
     agent any
+    
     tools {
         gradle "Gradle 8.2-rc-2"
     }
+
+    node('hozuki-ferrari-best-girl') {
+        echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+        def propertiesPath = "Application/android/app/version.properties.txt"
+        def versionPropsFile = file(propertiesPath)
+        //def versionProps = readProperties file: propertiesPath
+
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+
+            echo "VERSION_TYPE = ${versionProps['VERSION_TYPE'].toString()}"
+        } else {
+            echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
+        }
+    }
+
     stages {
         stage('NPM Setup') {
             steps {
@@ -50,21 +68,6 @@ pipeline {
         }
 
         stage('Upload Sign Bundle to Play Store') {
-            node('hozuki-ferrari-best-girl') {
-                echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
-                def propertiesPath = "Application/android/app/version.properties.txt"
-                def versionPropsFile = file(propertiesPath)
-                //def versionProps = readProperties file: propertiesPath
-
-                if (versionPropsFile.canRead()) {
-                    def Properties versionProps = new Properties()
-                    versionProps.load(new FileInputStream(versionPropsFile))
-
-                    echo "VERSION_TYPE = ${versionProps['VERSION_TYPE'].toString()}"
-                } else {
-                    echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
-                }
-            }
             steps {
 
                 echo 'Publishing Android Bundle in Play Store ...'
