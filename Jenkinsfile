@@ -30,7 +30,9 @@ pipeline {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 sh 'gradle clean build'
-                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
+                env.GRADLE_USER_HOME = "Application/android/.gradle"
+                // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
+                sh './gradlew bundleRelease prepareBundle'
             }
         }
 
