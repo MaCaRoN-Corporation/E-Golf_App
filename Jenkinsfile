@@ -50,7 +50,7 @@ pipeline {
         }
 
         stage('Upload Sign Bundle to Play Store') {
-            steps {
+            node('hozuki-ferrari-best-girl') {
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
                 def propertiesPath = "Application/android/app/version.properties.txt"
                 def versionPropsFile = file(propertiesPath)
@@ -64,6 +64,8 @@ pipeline {
                 } else {
                     echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
                 }
+            }
+            steps {
 
                 echo 'Publishing Android Bundle in Play Store ...'
                 // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', trackName: 'beta' // alpha/beta/production
