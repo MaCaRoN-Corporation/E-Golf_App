@@ -55,16 +55,9 @@ pipeline {
         stage('Upload to Play Store') {
             steps {
                 script {
-                    def propertiesPath = "Application/android/app/version.properties.txt"
-                    def versionPropsFile = file(propertiesPath)
-                    // def versionProps = readProperties file: propertiesPath
-
-                    if (versionPropsFile.canRead()) {
-                        def Properties versionProps = new Properties()
-                        versionProps.load(new FileInputStream(versionPropsFile))
-
-                        VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
-                    }
+                    def versionProps = readProperties file: "Application/android/app/version.properties.txt"
+                    echo "${versionProps}"
+                    VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
                 }
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
                 echo "VERSION_TYPE = ${VERSION_TYPE}"
