@@ -26,11 +26,11 @@ pipeline {
         }
 
         stage('Creation Sign Bundle') {
+            env.GRADLE_USER_HOME = "Application/android/.gradle"
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 sh 'gradle clean build'
-                env.GRADLE_USER_HOME = "Application/android/.gradle"
                 // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
                 sh './gradlew bundleRelease prepareBundle'
             }
