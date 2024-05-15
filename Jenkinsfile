@@ -29,7 +29,6 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
-                sh 'gradle clean build'
                 sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
                 bat '''ls Application/Releases/beta_versions/'''
                 bat '''ls Application/Releases/release_versions'''
@@ -53,6 +52,19 @@ pipeline {
         stage('Upload Sign Bundle to Play Store') {
             steps {
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+                def propertiesPath = "Application/android/app/version.properties.txt"
+                def versionPropsFile = file(propertiesPath)
+                //def versionProps = readProperties file: propertiesPath
+
+                if (versionPropsFile.canRead()) {
+                    def Properties versionProps = new Properties()
+                    versionProps.load(new FileInputStream(versionPropsFile))
+
+                    echo "VERSION_TYPE = ${versionProps['VERSION_TYPE'].toString()}"
+                } else {
+                    echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
+                }
+
                 echo 'Publishing Android Bundle in Play Store ...'
                 // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', trackName: 'beta' // alpha/beta/production
                 // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', trackName: 'production' // alpha/beta/production
