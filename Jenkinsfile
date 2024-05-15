@@ -1,24 +1,24 @@
 pipeline {
-    agent any
-    
-    tools {
-        gradle "Gradle 8.2-rc-2"
+    agent {
+        node('hozuki-ferrari-best-girl') {
+            echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
+            def propertiesPath = "Application/android/app/version.properties.txt"
+            def versionPropsFile = file(propertiesPath)
+            //def versionProps = readProperties file: propertiesPath
+
+            if (versionPropsFile.canRead()) {
+                def Properties versionProps = new Properties()
+                versionProps.load(new FileInputStream(versionPropsFile))
+
+                echo "VERSION_TYPE = ${versionProps['VERSION_TYPE'].toString()}"
+            } else {
+                echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
+            }
+        }        
     }
 
-    node('hozuki-ferrari-best-girl') {
-        echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
-        def propertiesPath = "Application/android/app/version.properties.txt"
-        def versionPropsFile = file(propertiesPath)
-        //def versionProps = readProperties file: propertiesPath
-
-        if (versionPropsFile.canRead()) {
-            def Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionPropsFile))
-
-            echo "VERSION_TYPE = ${versionProps['VERSION_TYPE'].toString()}"
-        } else {
-            echo "IMPOSSIBLE DE LIRE LE FICHIER !!!!"
-        }
+    tools {
+        gradle "Gradle 8.2-rc-2"
     }
 
     stages {
