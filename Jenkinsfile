@@ -1,10 +1,5 @@
-/* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
-    // environment {
-    //     PATH = '/usr/local/bin:/usr/bin:/bin'
-    // }
-
+    // agent any
     stages {
         stage('NPM Setup') {
             steps {
@@ -41,24 +36,21 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     bat '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
-                //     git add *
-                //     git commit -m "auto-publish commit"
-                //     git push
+                    git add *
+                    git commit -m "auto-publish commit"
+                    git push
                 '''
                 }
             }
         }
 
-        stage('Deploiement Sign Bundle') {
+        stage('Upload Sign Bundle to Play Store') {
             steps {
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
                 echo 'Publishing Android Bundle in Play Store ...'
-            }
-        }
-
-        stage('Publish Android') {
-            steps {
-                echo 'Publish Android API Action'
+                // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', trackName: 'beta' // alpha/beta/production
+                // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', trackName: 'production' // alpha/beta/production
+                echo 'Sign Bundle Version Publishing --> Done'
             }
         }
     }
