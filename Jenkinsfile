@@ -21,52 +21,52 @@ pipeline {
     }
 
     stages {
-        stage('NPM Setup') {
-            steps {
-                echo 'NPM Install ...'
-                sh 'npm install'
-            }
-        }
+        // stage('NPM Setup') {
+        //     steps {
+        //         echo 'NPM Install ...'
+        //         sh 'npm install'
+        //     }
+        // }
 
-        stage('Ionic Build') {
-            steps {
-                echo 'Ionic Build ...'
-                sh 'ionic build'
-            }
-        }
+        // stage('Ionic Build') {
+        //     steps {
+        //         echo 'Ionic Build ...'
+        //         sh 'ionic build'
+        //     }
+        // }
 
-        stage('Android Build') {
-            steps {
-                echo 'Build Ionic Capacitor ...'
-                sh 'ionic capacitor build android'
-            }
-        }
+        // stage('Android Build') {
+        //     steps {
+        //         echo 'Build Ionic Capacitor ...'
+        //         sh 'ionic capacitor build android'
+        //     }
+        // }
 
-        stage('Creation Sign Bundle') {
-            steps {
-                echo 'Moving old version into folder ...'
-                echo 'Creation of new Sign Bundle AAB ...'
-                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
-                bat '''ls Application/Releases/beta_versions/'''
-                bat '''ls Application/Releases/release_versions'''
-            }
-        }
+        // stage('Creation Sign Bundle') {
+        //     steps {
+        //         echo 'Moving old version into folder ...'
+        //         echo 'Creation of new Sign Bundle AAB ...'
+        //         sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
+        //         bat '''ls Application/Releases/beta_versions/'''
+        //         bat '''ls Application/Releases/release_versions'''
+        //     }
+        // }
 
-        stage('GIT Update') {
-            steps {
-                echo 'Commiting and pushing...'
-                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    bat '''cd Application
-                    git config --global --add --bool push.autoSetupRemote true
-                    git add *
-                    git commit -m "auto-publish commit"
-                    git push
-                '''
-                }
-            }
-        }
+        // stage('GIT Update') {
+        //     steps {
+        //         echo 'Commiting and pushing...'
+        //         withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+        //             bat '''cd Application
+        //             git config --global --add --bool push.autoSetupRemote true
+        //             git add *
+        //             git commit -m "auto-publish commit"
+        //             git push
+        //         '''
+        //         }
+        //     }
+        // }
 
-        stage('Upload Sign Bundle to Play Store') {
+        stage('Upload to Play Store') {
             steps {
                 script {
                     testtoto()
