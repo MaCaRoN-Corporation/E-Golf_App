@@ -6,13 +6,14 @@ pipeline {
         gradle "Gradle 8.2-rc-2"
     }
 
-    node {
-        withGradle {
-            sh './gradlew bundleRelease prepareBundle'
-        }
-    }
 
     stages {
+        node {
+            withGradle {
+                sh './gradlew bundleRelease prepareBundle'
+            }
+        }
+        
         // stage('NPM Setup') {
         //     steps {
         //         echo '[!!!] NPM Install ... [!!!]'
