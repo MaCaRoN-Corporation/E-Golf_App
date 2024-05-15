@@ -59,7 +59,7 @@ pipeline {
                     VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
 
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
-                    if(${VERSION_TYPE} == "debug") {
+                    if(VERSION_TYPE == "debug") {
                         echo 'Publishing Beta Version ...'
                         // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', trackName: 'beta' // alpha/beta/production
                     } else {
