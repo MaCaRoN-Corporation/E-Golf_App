@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        node('hozuki-ferrari-best-girl') {
+        node {
             echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
             def propertiesPath = "Application/android/app/version.properties.txt"
             def versionPropsFile = file(propertiesPath)
