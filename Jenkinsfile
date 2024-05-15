@@ -61,10 +61,10 @@ pipeline {
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                     if(VERSION_TYPE == "debug") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', trackName: 'beta' // alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'beta' // alpha/beta/production
                     } else {
                         echo 'Publishing Beta Version ...'
-                        // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', trackName: 'production' // alpha/beta/production
+                        // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // alpha/beta/production
                     }
                     echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                 }
