@@ -29,6 +29,7 @@ pipeline {
             steps {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
+                sh 'gradle clean build'
                 sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
             }
         }
