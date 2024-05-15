@@ -29,10 +29,11 @@ pipeline {
         // }
 
         stage('Creation Sign Bundle') {
-            node {
-                sh 'gradle bundleRelease prepareBundle --scan'
-            }
             steps {
+                script {
+                    sh 'gradle bundleRelease prepareBundle --scan'
+                }
+
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
                 // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
                 bat '''ls Application/Releases/beta_versions/'''
