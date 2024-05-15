@@ -32,7 +32,8 @@ pipeline {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
                 withGradle {
-                    sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
+                    sh '.gradlew bundleRelease prepareBundle'
+                    // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
                 }
                 bat '''ls Application/Releases/beta_versions/'''
                 bat '''ls Application/Releases/release_versions'''
