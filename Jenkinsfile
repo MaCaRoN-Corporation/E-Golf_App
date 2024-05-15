@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        gradle "GRADLE_LATEST"
+        gradle "Gradle 8.8-rc-1"
     }
     stages {
         stage('NPM Setup') {
