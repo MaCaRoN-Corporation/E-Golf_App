@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        gradlew "GRADLE_LATEST"
+        gradle "GRADLE_LATEST"
     }
     stages {
         stage('NPM Setup') {
@@ -30,7 +30,7 @@ pipeline {
                 echo 'Moving old version into folder ...'
                 echo 'Creation of new Sign Bundle AAB ...'
                 // sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
-                sh 'gradlew bundleRelease prepareBundle'
+                sh 'gradle bundleRelease prepareBundle'
             }
         }
 
