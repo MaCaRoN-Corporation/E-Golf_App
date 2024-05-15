@@ -1,15 +1,15 @@
 def VERSION_TYPE
 def testtoto() {
     def propertiesPath = "Application/android/app/version.properties.txt"
-    def versionPropsFile = file(propertiesPath)
-    //def versionProps = readProperties file: propertiesPath
+    // def versionPropsFile = file(propertiesPath)
+    def versionProps = readProperties file: propertiesPath
 
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionPropsFile))
+    // if (versionPropsFile.canRead()) {
+        // def Properties versionProps = new Properties()
+        // versionProps.load(new FileInputStream(versionPropsFile))
 
         VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
-    }
+    // }
 }
 
 
