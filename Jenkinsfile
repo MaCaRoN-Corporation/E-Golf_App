@@ -31,7 +31,7 @@ pipeline {
         stage('Creation Sign Bundle') {
             steps {
                 script {
-                    sh './gradlew bundleRelease prepareBundle --scan'
+                    sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
                 }
 
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
