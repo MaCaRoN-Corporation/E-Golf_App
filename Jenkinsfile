@@ -28,14 +28,14 @@ pipeline {
         //     }
         // }
 
-        // stage('Creation Sign Bundle') {
-        //     steps {
-        //         echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
-        //         sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
-        //         bat '''ls Application/Releases/beta_versions/'''
-        //         bat '''ls Application/Releases/release_versions'''
-        //     }
-        // }
+        stage('Creation Sign Bundle') {
+            steps {
+                echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
+                sh '.\\Application\\android\\gradlew bundleRelease prepareBundle'
+                bat '''ls Application/Releases/beta_versions/'''
+                bat '''ls Application/Releases/release_versions'''
+            }
+        }
 
         // stage('GIT Update') {
         //     steps {
@@ -51,24 +51,27 @@ pipeline {
         //     }
         // }
 
-        stage('Upload to Play Store') {
-            steps {
-                script {
-                    echo '[!!!] Choose Releases/[beta_version - release_version] .aab version [!!!]'
-                    def versionProps = readProperties file: "Application/android/app/version.properties.txt"
-                    VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
+        // stage('Upload to Play Store') {
+        //     steps {
+        //         script {
+        //             echo '[!!!] Choose Releases/[beta_version - release_version] .aab version [!!!]'
+        //             def versionProps = readProperties file: "Application/android/app/version.properties.txt"
+        //             VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
 
-                    echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
-                    if(VERSION_TYPE == "debug") {
-                        echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // alpha/beta/production
-                    } else {
-                        echo 'Publishing Beta Version ...'
-                        // androidApkUpload googleCredentialsId: 'Google Play Key', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // alpha/beta/production
-                    }
-                    echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
-                }
-            }
-        }
+        //             echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
+        //             if (VERSION_TYPE == "debug") {
+        //                 echo 'Publishing Beta Version ...'
+        //                 androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // alpha/beta/production
+        //                 echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
+        //             } else if (VERSION_TYPE == "release") {
+        //                 echo 'Publishing Beta Version ...'
+        //                 androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // alpha/beta/production
+        //                 echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
+        //             } else {
+        //                 echo 'Publishing failed, try again looser !'
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
