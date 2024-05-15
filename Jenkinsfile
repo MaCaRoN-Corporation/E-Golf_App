@@ -56,7 +56,7 @@ pipeline {
             steps {
                 script {
                     def versionProps = readProperties file: "Application/android/app/version.properties.txt"
-                    echo "${versionProps}"
+                    echo "${versionProps['VERSION_TYPE']}"
                     VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
                 }
                 echo 'TODO: Choose Releases/[beta_version - release_version] .aab version'
