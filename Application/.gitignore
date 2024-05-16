@@ -66,5 +66,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-!Application/android/capacitor-cordova-android-plugins/cordova.variables.gradle

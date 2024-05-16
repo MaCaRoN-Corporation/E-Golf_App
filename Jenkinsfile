@@ -38,14 +38,14 @@ pipeline {
         stage('NPM Setup') {
             steps {
                 echo '[!!!] NPM Install ... [!!!]'
-                // sh 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Ionic Build') {
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
-                // sh 'ionic build'
+                sh 'ionic build'
             }
         }
 
@@ -75,13 +75,13 @@ pipeline {
         stage('GIT PUSH') {
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
-                // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                //     bat "cd Application"
-                //     bat "git config --global --add --bool push.autoSetupRemote true"
-                //     bat "git add *"
-                //     bat "git commit -m \"auto-publish commit\""
-                //     bat "git push"
-                // }
+                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    bat "cd Application"
+                    bat "git config --global --add --bool push.autoSetupRemote true"
+                    bat "git add *"
+                    bat "git commit -m \"auto-publish commit\""
+                    bat "git push"
+                }
             }
         }
 
