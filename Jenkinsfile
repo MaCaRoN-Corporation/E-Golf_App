@@ -50,7 +50,6 @@ pipeline {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
                 
-                
                 // withGradle {
                 //     sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
                 // }
