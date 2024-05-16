@@ -129,11 +129,11 @@ android {
   }
 }
 
-repositories {
-  flatDir {
-    dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
-  }
-}
+// repositories {
+//   flatDir {
+//     dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+//   }
+// }
 
 dependencies {
   implementation fileTree(include: ['*.jar'], dir: 'libs')
