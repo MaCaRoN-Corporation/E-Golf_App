@@ -40,6 +40,8 @@ pipeline {
                 script {
                     // sh 'npx cap open android'
                     bat '''cd Application
+                    npm i @capacitor/core
+                    npm i -D @capacitor/cli
                     npx cap sync'''
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
