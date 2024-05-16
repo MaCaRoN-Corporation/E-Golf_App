@@ -13,6 +13,15 @@ node {
     def buildInfo
 
     stage('Artifactory configuration') {
+        withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    bat '''cd Application
+                    git config --global --add --bool push.autoSetupRemote true
+                    git pull
+                '''
+                }
+    }
+
+    stage('Artifactory configuration') {
         // Tool name from Jenkins configuration
         rtGradle.tool = "Gradle 8.2-rc-2"
         // Set Artifactory repositories for dependencies resolution and artifacts deployment.
