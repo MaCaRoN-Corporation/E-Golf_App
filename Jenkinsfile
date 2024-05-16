@@ -1,4 +1,16 @@
 def SKIP_ALL_STAGES
+
+@NonCPS
+String getCommitMessage(){
+    commitMessage = " "
+    for ( changeLogSet in currentBuild.changeSets){
+        for (entry in changeLogSet.getItems()){
+            commitMessage = entry.msg
+        }
+    }
+    return commitMessage
+}
+
 pipeline {
     agent any
 
@@ -7,16 +19,16 @@ pipeline {
             steps {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
+                    def commitMessage
                     // def commitMessage = `sh git show -s --format=%s`
                     // sh " 'git show -s --format=%s' > command"
                     // env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-                    // def commitMessage
 
-                    withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                        sh "'git show -s --format=%s' > command"
-                    }
+                    // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    //     sh "'git show -s --format=%s' > command"
+                    // }
                     
-                    def commitMessage = readFile('command').trim()
+                    commitMessage = getCommitMessage()
 
                     echo "${commitMessage}"
                     SKIP_ALL_STAGES = true
