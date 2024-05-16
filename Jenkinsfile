@@ -60,10 +60,12 @@ pipeline {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
 
-                def rtGradle = Artifactory.newGradleBuild()
-                rtGradle.tool = "Gradle 8.2-rc-2"
-                def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
-                echo "${buildInfo}"
+                script {
+                    def rtGradle = Artifactory.newGradleBuild()
+                    rtGradle.tool = "Gradle 8.2-rc-2"
+                    def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
+                    echo "${buildInfo}"
+                }
 
                 bat '''ls Application/Releases/beta_versions/'''
                 bat '''ls Application/Releases/release_versions'''
