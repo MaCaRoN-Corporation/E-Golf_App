@@ -39,9 +39,8 @@ pipeline {
 
                 script {
                     // sh 'npx cap open android'
-                    bat '''cd Application
-                    npm install @capacitor/android
-                    npx cap sync'''
+                    // bat '''cd Application
+                    // npx cap sync'''
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
                     def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
