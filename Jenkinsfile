@@ -60,7 +60,7 @@ pipeline {
                 // rtGradle.deployer repo:'ext-release-local', server: server
                 // rtGradle.resolver repo:'remote-repos', server: server
                 Application\android\app\build.gradle
-                buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
+                buildInfo = rtGradle.run rootDir: "Application\\android\\app\\build.gradle\\", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
 
                 echo "${buildInfo}"
                 bat '''ls Application/Releases/beta_versions/'''
