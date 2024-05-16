@@ -26,10 +26,12 @@ pipeline {
 
     stages {
         stage('GIT PULL') {
-            withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                bat "cd Application"
-                bat "git config --global --add --bool push.autoSetupRemote true"
-                bat "git pull"
+            steps {
+                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    bat "cd Application"
+                    bat "git config --global --add --bool push.autoSetupRemote true"
+                    bat "git pull"
+                }
             }
         }
 
