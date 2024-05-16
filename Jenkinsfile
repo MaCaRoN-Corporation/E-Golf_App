@@ -62,7 +62,7 @@ pipeline {
 
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
-                    rtGradle.tool = "Gradle 8.7"
+                    rtGradle.tool = "Gradle"
                     def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
                     echo "${buildInfo}"
                 }
