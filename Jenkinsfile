@@ -8,23 +8,11 @@ def buildInfo
 pipeline {
     agent any
 
-    environment {
-        SERVER_NAME = "dev-server"
-    }
-
     tools {
         gradle "Gradle 8.2-rc-2"
     }
 
     stages {
-        // stage('Build') {
-        //     steps {
-        //         echo '[!!!] Build ... [!!!]'
-        //         sh 'git log'
-        //         sh 'cd ~/workspace/deployment-staging && ansible-playbook playbook_dir/deployment.yml -i inventories/hosts -l ${SERVER_NAME}'
-        //     }
-        // }
-
         // stage('NPM Setup') {
         //     steps {
         //         echo '[!!!] NPM Install ... [!!!]'
@@ -49,7 +37,7 @@ pipeline {
         stage('Creation Sign Bundle') {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
-                
+
                 // withGradle {
                 //     sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
                 // }
@@ -59,8 +47,7 @@ pipeline {
                 // Set Artifactory repositories for dependencies resolution and artifacts deployment.
                 // rtGradle.deployer repo:'ext-release-local', server: server
                 // rtGradle.resolver repo:'remote-repos', server: server
-                Application\android\app\build.gradle
-                buildInfo = rtGradle.run rootDir: "Application\\android\\app\\build.gradle\\", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
+                buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
 
                 echo "${buildInfo}"
                 bat '''ls Application/Releases/beta_versions/'''
