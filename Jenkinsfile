@@ -13,8 +13,7 @@ pipeline {
                     // def commitMessage
 
                     withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                        bat "cd Application"
-                        bat "'git show -s --format=%s' > command"
+                        sh "'git show -s --format=%s' > command"
                     }
                     
                     def commitMessage = readFile('command').trim()
