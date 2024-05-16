@@ -1,16 +1,4 @@
 def SKIP_ALL_STAGES
-
-@NonCPS
-String getCommitMessage(){
-    commitMessage = " "
-    for ( changeLogSet in currentBuild.changeSets){
-        for (entry in changeLogSet.getItems()){
-            commitMessage = entry.msg
-        }
-    }
-    return commitMessage
-}
-
 pipeline {
     agent any
 
@@ -20,24 +8,18 @@ pipeline {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
                     def commitMessage
-                    // def commitMessage = `sh git show -s --format=%s`
-                    // sh " 'git show -s --format=%s' > command"
-                    // env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
 
-                    // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    //     sh "'git show -s --format=%s' > command"
-                    // }
+                    for ( changeLogSet in currentBuild.changeSets){
+                        for (entry in changeLogSet.getItems()){
+                            commitMessage = entry.msg
+                        }
+                    }
                     
-                    commitMessage = getCommitMessage()
-
-                    echo "${commitMessage}"
-                    SKIP_ALL_STAGES = true
-                    
-                    // if (commitMessage == "" || commitMessage == null) {
-                    //     error("Commit message does not follow conventional commit format")
-                    // } else if (commitMessage == "auto-publish commit") {
-                    //     SKIP_ALL_STAGES = true
-                    // }
+                    if (commitMessage == "" || commitMessage == null) {
+                        error("Commit message does not follow conventional commit format")
+                    } else if (commitMessage == "auto-publish commit") {
+                        SKIP_ALL_STAGES = true
+                    }
                 }
             }
         }
@@ -118,11 +100,11 @@ pipeline {
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                     if (VERSION_TYPE == "debug") {
                         echo 'Publishing Beta Version ...'
-                        // androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else if (VERSION_TYPE == "release") {
                         echo 'Publishing Beta Version ...'
-                        // androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else {
                         echo 'Publishing failed, try again looser !'
