@@ -2,17 +2,40 @@ def VERSION_TYPE
 // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
 // def server = Artifactory.server "SERVER_ID"
 // Create an Artifactory Gradle instance.
-def rtGradle = Artifactory.newGradleBuild()
-def buildInfo
+// def rtGradle = Artifactory.newGradleBuild()
+// def buildInfo
 
-pipeline {
-    agent any
+node {
+    // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
+    // def server = Artifactory.server "SERVER_ID"
+    // Create an Artifactory Gradle instance.
+    def rtGradle = Artifactory.newGradleBuild()
+    def buildInfo
 
-    tools {
-        gradle "Gradle 8.2-rc-2"
+    stage('Artifactory configuration') {
+        // Tool name from Jenkins configuration
+        rtGradle.tool = "Gradle 8.2-rc-2"
+        // Set Artifactory repositories for dependencies resolution and artifacts deployment.
+        // rtGradle.deployer repo:'ext-release-local', server: server
+        // rtGradle.resolver repo:'remote-repos', server: server
     }
 
-    stages {
+    stage('Gradle build') {
+        buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
+        echo "${buildInfo}"
+        bat '''ls Application/Releases/beta_versions/'''
+        bat '''ls Application/Releases/release_versions'''
+    }
+}
+
+// pipeline {
+//     agent any
+
+//     tools {
+//         gradle "Gradle 8.2-rc-2"
+//     }
+
+//     stages {
         // stage('NPM Setup') {
         //     steps {
         //         echo '[!!!] NPM Install ... [!!!]'
@@ -34,26 +57,26 @@ pipeline {
         //     }
         // }
 
-        stage('Creation Sign Bundle') {
-            steps {
-                echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
+        // stage('Creation Sign Bundle') {
+        //     steps {
+        //         echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
 
-                // withGradle {
-                //     sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
-                // }
+        //         // withGradle {
+        //         //     sh '.\\Application\\android\\gradlew bundleRelease prepareBundle --scan'
+        //         // }
 
-                // Tool name from Jenkins configuration
-                rtGradle.tool = "Gradle 8.2-rc-2"
-                // Set Artifactory repositories for dependencies resolution and artifacts deployment.
-                // rtGradle.deployer repo:'ext-release-local', server: server
-                // rtGradle.resolver repo:'remote-repos', server: server
-                buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
+        //         // Tool name from Jenkins configuration
+        //         rtGradle.tool = "Gradle 8.2-rc-2"
+        //         // Set Artifactory repositories for dependencies resolution and artifacts deployment.
+        //         // rtGradle.deployer repo:'ext-release-local', server: server
+        //         // rtGradle.resolver repo:'remote-repos', server: server
+        //         buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
 
-                echo "${buildInfo}"
-                bat '''ls Application/Releases/beta_versions/'''
-                bat '''ls Application/Releases/release_versions'''
-            }
-        }
+        //         echo "${buildInfo}"
+        //         bat '''ls Application/Releases/beta_versions/'''
+        //         bat '''ls Application/Releases/release_versions'''
+        //     }
+        // }
 
         // stage('GIT Update') {
         //     steps {
