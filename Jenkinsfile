@@ -11,7 +11,8 @@ pipeline {
                     
                     if (!match) {
                         echo "Non-Conventional Commit: ${commitMessage}"
-                        error("Commit message does not follow conventional commit format")
+                        echo("Commit message does not follow conventional commit format")
+                        exit 1
                     } else if (commitMessage == "auto-publish commit") {
                         exit 1
                     }
