@@ -39,7 +39,7 @@ pipeline {
 
                 script {
                     // sh 'npx cap open android'
-                    sh 'Application\\npx cap sync'
+                    npx cap sync
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
                     def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
