@@ -40,10 +40,7 @@ pipeline {
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
-                    // def buildInfo1 = rtGradle.run rootDir: "Application/android/", tasks: 'prepareBundle'
-                    // echo "${buildInfo1}"
-                    def buildInfo2 = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease'
-                    echo "${buildInfo2}"
+                    rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
 
                 bat '''ls Application/Releases/beta_versions/'''
