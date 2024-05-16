@@ -38,13 +38,12 @@ pipeline {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
 
                 script {
-                    // sh 'npx cap open android'
-                    // bat '''cd Application
-                    // npx cap sync'''
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
-                    def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
-                    echo "${buildInfo}"
+                    def buildInfo1 = rtGradle.run rootDir: "Application/android/", tasks: 'prepareBundle'
+                    echo "${buildInfo1}"
+                    def buildInfo2 = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease'
+                    echo "${buildInfo2}"
                 }
 
                 bat '''ls Application/Releases/beta_versions/'''
