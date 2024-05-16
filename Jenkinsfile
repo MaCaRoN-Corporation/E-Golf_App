@@ -12,9 +12,9 @@ pipeline {
                     if (!match) {
                         echo "Non-Conventional Commit: ${commitMessage}"
                         echo("Commit message does not follow conventional commit format")
-                        exit 1
+                        return
                     } else if (commitMessage == "auto-publish commit") {
-                        exit 1
+                        return
                     }
                 }
             }
