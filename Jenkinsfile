@@ -15,21 +15,21 @@ pipeline {
         stage('NPM Setup') {
             steps {
                 echo '[!!!] NPM Install ... [!!!]'
-                sh 'npm install'
+                // sh 'npm install'
             }
         }
 
         stage('Ionic Build') {
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
-                sh 'ionic build'
+                // sh 'ionic build'
             }
         }
 
         stage('Android Build') {
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                sh 'ionic capacitor build android'
+                // sh 'ionic capacitor build android'
             }
         }
 
@@ -39,7 +39,7 @@ pipeline {
 
                 script {
                     // sh 'npx cap open android'
-                    npx cap sync
+                    bat "npx cap sync"
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
                     def buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
