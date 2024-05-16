@@ -1,3 +1,4 @@
+def SKIP_ALL_STAGES
 pipeline {
     agent any
 
@@ -11,16 +12,17 @@ pipeline {
                     
                     if (!match) {
                         echo "Non-Conventional Commit: ${commitMessage}"
-                        echo("Commit message does not follow conventional commit format")
-                        return
+                        error("Commit message does not follow conventional commit format")
+                        SKIP_ALL_STAGES = true
                     } else if (commitMessage == "auto-publish commit") {
-                        return
+                        SKIP_ALL_STAGES = true
                     }
                 }
             }
         }
 
         stage('GIT PULL') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     bat "cd Application"
@@ -31,6 +33,7 @@ pipeline {
         }
 
         stage('NPM Setup') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] NPM Install ... [!!!]'
                 sh 'npm install'
@@ -38,6 +41,7 @@ pipeline {
         }
 
         stage('Ionic Build') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
                 sh 'ionic build'
@@ -45,6 +49,7 @@ pipeline {
         }
 
         stage('Android Build') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
                 sh 'ionic capacitor build android'
@@ -52,6 +57,7 @@ pipeline {
         }
 
         stage('Creation Sign Bundle') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
 
@@ -67,6 +73,7 @@ pipeline {
         }
 
         stage('GIT PUSH') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
@@ -80,6 +87,7 @@ pipeline {
         }
 
         stage('Upload to Play Store') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
                     echo '[!!!] Choose Releases/[beta_version - release_version] .aab version [!!!]'
