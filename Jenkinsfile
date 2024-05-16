@@ -2,6 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('Check Auth Commit') {
+            steps {
+                script {
+                    echo '[!!!] Check Auth Commit [!!!]'
+                    def commitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
+                    def match = (commitMessage =~ /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z]+\))?:\s.+$/)
+                    
+                    if (!match) {
+                        echo "Non-Conventional Commit: ${commitMessage}"
+                        error("Commit message does not follow conventional commit format")
+                    } else if (commitMessage == "auto-publish commit") {
+                        exit 1
+                    }
+                }
+            }
+        }
+
         stage('GIT PULL') {
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
@@ -15,21 +32,21 @@ pipeline {
         stage('NPM Setup') {
             steps {
                 echo '[!!!] NPM Install ... [!!!]'
-                // sh 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Ionic Build') {
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
-                // sh 'ionic build'
+                sh 'ionic build'
             }
         }
 
         stage('Android Build') {
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                // sh 'ionic capacitor build android'
+                sh 'ionic capacitor build android'
             }
         }
 
