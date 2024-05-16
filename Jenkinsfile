@@ -1,28 +1,5 @@
-// node {
-    // stage('Artifactory configuration') {
-    //     withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-    //                 bat '''cd Application
-    //                 git config --global --add --bool push.autoSetupRemote true
-    //                 git pull
-    //             '''
-    //             }
-    // }
-
-    // stage('Gradle build') {
-    //     rtGradle.tool = "Gradle 8.2-rc-2"
-    //     buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
-    //     echo "${buildInfo}"
-    //     bat '''ls Application/Releases/beta_versions/'''
-    //     bat '''ls Application/Releases/release_versions'''
-    // }
-// }
-
 pipeline {
     agent any
-
-    // tools {
-    //     gradle "Gradle 8.2-rc-2"
-    // }
 
     stages {
         stage('GIT PULL') {
@@ -59,6 +36,7 @@ pipeline {
         stage('Creation Sign Bundle') {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
+                sh 'npx cap update'
 
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
