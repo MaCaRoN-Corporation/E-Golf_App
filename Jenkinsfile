@@ -52,7 +52,7 @@ pipeline {
         stage('Android Build') {
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                // sh 'ionic capacitor build android'
+                sh 'ionic capacitor build android'
             }
         }
 
