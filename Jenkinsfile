@@ -7,13 +7,13 @@ pipeline {
             steps {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
-                    // def commitMessage = sh("git show -s --format=%s")
+                    def commitMessage = `sh git show -s --format=%s`
                     // env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
-                    def commitMessage
+                    // def commitMessage
 
-                    withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                        commitMessage = bat "git show -s --format=%s"
-                    }
+                    // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    //     commitMessage = bat "git show -s --format=%s"
+                    // }
                     
                     echo "${commitMessage}"
                     SKIP_ALL_STAGES = true
