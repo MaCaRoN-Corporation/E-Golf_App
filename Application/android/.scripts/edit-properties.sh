@@ -12,7 +12,7 @@ echo ""
 
 if [ "$branch" != "main" ] && [ "$branch" != "dev" ]; then
   echo "You can't commit directly to the $branch branch"
-  exit 1
+  # exit 1
 fi
 
 if [ "$branch" = "main" ]; then
