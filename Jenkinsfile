@@ -8,15 +8,16 @@ pipeline {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
                     // def commitMessage = `sh git show -s --format=%s`
-                    sh " 'git show -s --format=%s' > command"
-                    def commitMessage = readFile('command').trim()
+                    // sh " 'git show -s --format=%s' > command"
                     // env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
                     // def commitMessage
 
-                    // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    //     commitMessage = bat "git show -s --format=%s"
-                    // }
+                    withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                        bat "'git show -s --format=%s' > command"
+                    }
                     
+                    def commitMessage = readFile('command').trim()
+
                     echo "${commitMessage}"
                     SKIP_ALL_STAGES = true
                     
