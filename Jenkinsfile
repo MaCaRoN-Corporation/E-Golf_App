@@ -21,7 +21,7 @@ node {
     }
 
     stage('Gradle build') {
-        buildInfo = rtGradle.run rootDir: "Application/android/app/build.gradle/", buildFile: 'build.gradle', tasks: 'bundleRelease prepareBundle'
+        buildInfo = rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease prepareBundle'
         echo "${buildInfo}"
         bat '''ls Application/Releases/beta_versions/'''
         bat '''ls Application/Releases/release_versions'''
