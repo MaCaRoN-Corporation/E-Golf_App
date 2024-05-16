@@ -36,7 +36,7 @@ pipeline {
         stage('Creation Sign Bundle') {
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
-                sh 'npx cap update'
+                sh 'npx cap open android'
 
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
