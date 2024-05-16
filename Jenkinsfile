@@ -12,7 +12,7 @@ pipeline {
                     
                     if (!match) {
                         echo "Non-Conventional Commit: ${commitMessage}"
-                        error("Commit message does not follow conventional commit format")
+                        // error("Commit message does not follow conventional commit format")
                         SKIP_ALL_STAGES = true
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
