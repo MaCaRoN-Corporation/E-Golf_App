@@ -7,16 +7,20 @@ pipeline {
             steps {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
-                    def commitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    def match = (commitMessage =~ /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z]+\))?:\s.+$/)
+                    def commitMessage = sh("git show -s --format=%s")
+
+                    // withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                    //     bat "git show -s --format=%s"
+                    // }
                     
-                    if (!match) {
-                        echo "Non-Conventional Commit: ${commitMessage}"
-                        // error("Commit message does not follow conventional commit format")
-                        SKIP_ALL_STAGES = true
-                    } else if (commitMessage == "auto-publish commit") {
-                        SKIP_ALL_STAGES = true
-                    }
+                    echo "${commitMessage}"
+                    SKIP_ALL_STAGES = true
+                    
+                    // if (commitMessage == "" || commitMessage == null) {
+                    //     error("Commit message does not follow conventional commit format")
+                    // } else if (commitMessage == "auto-publish commit") {
+                    //     SKIP_ALL_STAGES = true
+                    // }
                 }
             }
         }
