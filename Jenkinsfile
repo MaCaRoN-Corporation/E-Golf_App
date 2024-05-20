@@ -58,8 +58,8 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
-                sh '''cd Application/
-                ionic build'''
+                // sh '''cd Application/
+                // ionic build'''
             }
         }
 
