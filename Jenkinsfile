@@ -20,7 +20,6 @@ pipeline {
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     }
-                    // SKIP_ALL_STAGES = true
                 }
             }
         }
@@ -29,11 +28,11 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    sh "cd Application"
-                    sh "git config --global --add --bool push.autoSetupRemote true"
-                    sh "git pull"
+                    sh '''cd Application
+                    git config --global --add --bool push.autoSetupRemote true
+                    git pull'''
 
-                    sh "cd ../"
+                    // sh "cd ../"
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
                     sh "mv -n E-Golf_App-Dependencies/Application/* Application/"
                     sh "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
@@ -46,10 +45,12 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] NPM Setup ... [!!!]'
-                // sh 'cd Application/'
-                // sh 'npm upgrade'
-                // sh 'npm install'
-                // sh 'npm audit fix'
+                sh '''cd Application/
+                npm upgrade'''
+                sh '''cd Application/
+                npm install'''
+                sh '''cd Application/
+                npm audit fix'''
             }
         }
 
@@ -57,8 +58,8 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
-                sh 'cd Application/'
-                sh 'ionic build'
+                sh '''cd Application/
+                ionic build'''
             }
         }
 
@@ -66,8 +67,8 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                sh 'cd Application/'
-                // sh 'ionic capacitor build android'
+                // sh '''cd Application/
+                // ionic capacitor build android'''
             }
         }
 
