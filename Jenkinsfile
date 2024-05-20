@@ -21,7 +21,7 @@ pipeline {
                         SKIP_ALL_STAGES = true
                     }
                     
-                    SKIP_ALL_STAGES = true
+                    // SKIP_ALL_STAGES = true
                 }
             }
         }
