@@ -29,15 +29,15 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    bat "cd Application"
-                    bat "git config --global --add --bool push.autoSetupRemote true"
-                    bat "git pull"
+                    sh "cd Application"
+                    sh "git config --global --add --bool push.autoSetupRemote true"
+                    sh "git pull"
 
-                    bat "cd ../"
-                    bat "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
-                    bat "mv -n E-Golf_App-Dependencies/Application/* Application/"
-                    bat "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
-                    bat "rm -rf E-Golf_App-Dependencies/"
+                    sh "cd ../"
+                    sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
+                    sh "mv -n E-Golf_App-Dependencies/Application/* Application/"
+                    sh "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
+                    sh "rm -rf E-Golf_App-Dependencies/"
                 }
             }
         }
@@ -82,8 +82,8 @@ pipeline {
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
 
-                bat '''ls Application/Releases/beta_versions/'''
-                bat '''ls Application/Releases/release_versions'''
+                sh '''ls Application/Releases/beta_versions/'''
+                sh '''ls Application/Releases/release_versions'''
             }
         }
 
@@ -92,11 +92,11 @@ pipeline {
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    bat "cd Application"
-                    bat "git config --global --add --bool push.autoSetupRemote true"
-                    bat "git add *"
-                    bat "git commit -m \"auto-publish commit\""
-                    bat "git push"
+                    sh "cd Application"
+                    sh "git config --global --add --bool push.autoSetupRemote true"
+                    sh "git add *"
+                    sh "git commit -m \"auto-publish commit\""
+                    sh "git push"
                 }
             }
         }
