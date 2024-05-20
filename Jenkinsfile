@@ -46,10 +46,10 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] NPM Setup ... [!!!]'
-                sh 'cd Application/'
-                sh 'npm upgrade'
-                sh 'npm install'
-                sh 'npm audit fix'
+                // sh 'cd Application/'
+                // sh 'npm upgrade'
+                // sh 'npm install'
+                // sh 'npm audit fix'
             }
         }
 
