@@ -26,13 +26,19 @@ pipeline {
             }
         }
 
-        stage('GIT PULL') {
+        stage('GIT PULL & SYNC GIT DEPENDENCIES') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     bat "cd Application"
                     bat "git config --global --add --bool push.autoSetupRemote true"
                     bat "git pull"
+
+                    bat "cd ../"
+                    bat "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
+                    bat "mv -n E-Golf_App-Dependencies/Application/* Application/"
+                    bat "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
+                    bat "rm -rf E-Golf_App-Dependencies/"
                 }
             }
         }
@@ -40,8 +46,11 @@ pipeline {
         stage('NPM Setup') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
-                echo '[!!!] NPM Install ... [!!!]'
+                echo '[!!!] NPM Setup ... [!!!]'
+                sh 'cd Application/'
+                sh 'npm upgrade'
                 sh 'npm install'
+                sh 'npm audit fix'
             }
         }
 
@@ -49,6 +58,7 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Ionic Build ... [!!!]'
+                sh 'cd Application/'
                 sh 'ionic build'
             }
         }
@@ -57,7 +67,8 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                sh 'ionic capacitor build android'
+                sh 'cd Application/'
+                // sh 'ionic capacitor build android'
             }
         }
 
