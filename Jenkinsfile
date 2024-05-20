@@ -93,11 +93,11 @@ pipeline {
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
-                    sh "cd Application"
-                    sh "git config --global --add --bool push.autoSetupRemote true"
-                    sh "git add *"
-                    sh "git commit -m \"auto-publish commit\""
-                    sh "git push"
+                    sh '''cd Application
+                    git config --global --add --bool push.autoSetupRemote true
+                    git add *"
+                    git commit -m \"auto-publish commit\"
+                    git push'''
                 }
             }
         }
