@@ -32,7 +32,6 @@ pipeline {
                     git config --global --add --bool push.autoSetupRemote true
                     git pull'''
 
-                    // sh "cd ../"
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
                     sh "mv -n E-Golf_App-Dependencies/Application/* Application/"
                     sh "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
