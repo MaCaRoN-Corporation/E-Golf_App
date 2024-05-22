@@ -82,7 +82,6 @@ pipeline {
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
 
-                echo '[!!!] GRADLE OK ?????????!!!!!!!!!!! ... [!!!]'
                 sh '''ls Application/Releases/beta_versions/'''
                 sh '''ls Application/Releases/release_versions'''
             }
@@ -95,7 +94,7 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
-                    git add *"
+                    git add *
                     git commit -m \"auto-publish commit\"
                     git push'''
                 }
