@@ -111,11 +111,11 @@ pipeline {
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                     if (VERSION_TYPE == "debug") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else if (VERSION_TYPE == "release") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: '6739ee96-d5d3-4cba-bef7-e72c58f92fe8', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else {
                         echo 'Publishing failed, try again looser !'
