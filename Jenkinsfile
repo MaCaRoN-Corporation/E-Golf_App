@@ -27,7 +27,7 @@ pipeline {
         stage('GIT PULL & SYNC GIT DEPENDENCIES') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
-                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
                     git pull'''
@@ -88,7 +88,7 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
-                withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
+                withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
