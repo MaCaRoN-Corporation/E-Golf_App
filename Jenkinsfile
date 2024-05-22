@@ -20,6 +20,7 @@ pipeline {
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     }
+                        SKIP_ALL_STAGES = true
                 }
             }
         }
@@ -41,7 +42,7 @@ pipeline {
         }
 
         stage('NPM Setup') {
-            when { expression { SKIP_ALL_STAGES != true } }
+            // when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] NPM Setup ... [!!!]'
                 sh '''cd Application/
@@ -95,7 +96,6 @@ pipeline {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
-                    git add *
                     git commit -m \"auto-publish commit\"
                     git push'''
                     // git add Application/Releases/*
