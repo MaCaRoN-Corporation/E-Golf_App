@@ -95,9 +95,10 @@ pipeline {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
-                    git add Application/Releases/*
+                    git add *
                     git commit -m \"auto-publish commit\"
                     git push'''
+                    // git add Application/Releases/*
                 }
             }
         }
