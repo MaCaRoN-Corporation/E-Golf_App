@@ -94,7 +94,6 @@ pipeline {
                     git config advice.addIgnoredFile false
                     git commit -m \"auto-publish commit\"
                     git push'''
-                    // git add Application/Releases/*
                 }
             }
         }
