@@ -20,7 +20,6 @@ pipeline {
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     }
-                        SKIP_ALL_STAGES = true
                 }
             }
         }
@@ -41,36 +40,36 @@ pipeline {
             }
         }
 
-        stage('NPM Setup') {
-            // when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] NPM Setup ... [!!!]'
-                sh '''cd Application/
-                npm upgrade'''
-                sh '''cd Application/
-                npm install'''
-                sh '''cd Application/
-                npm audit fix'''
-            }
-        }
+        // stage('NPM Setup') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] NPM Setup ... [!!!]'
+        //         sh '''cd Application/
+        //         npm upgrade'''
+        //         sh '''cd Application/
+        //         npm install'''
+        //         sh '''cd Application/
+        //         npm audit fix'''
+        //     }
+        // }
 
-        stage('Ionic Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Ionic Build ... [!!!]'
-                // sh '''cd Application/
-                // ionic build'''
-            }
-        }
+        // stage('Ionic Build') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] Ionic Build ... [!!!]'
+        //         // sh '''cd Application/
+        //         // ionic build'''
+        //     }
+        // }
 
-        stage('Android Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                // sh '''cd Application/
-                // ionic capacitor build android'''
-            }
-        }
+        // stage('Android Build') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] Build Ionic Capacitor ... [!!!]'
+        //         // sh '''cd Application/
+        //         // ionic capacitor build android'''
+        //     }
+        // }
 
         stage('Creation Sign Bundle') {
             when { expression { SKIP_ALL_STAGES != true } }
@@ -82,9 +81,6 @@ pipeline {
                     rtGradle.tool = "Gradle"
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
-
-                sh '''ls Application/Releases/beta_versions/'''
-                sh '''ls Application/Releases/release_versions'''
             }
         }
 
