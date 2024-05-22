@@ -94,7 +94,8 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'Jenkins - E-Golf App', gitToolName: 'Default')]) {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
-                    git add *
+                    git config advice.addIgnoredFile false
+                    git add Application/Releases/*
                     git commit -m \"auto-publish commit\"
                     git push'''
                 }
