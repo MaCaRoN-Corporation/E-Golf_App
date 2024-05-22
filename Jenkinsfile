@@ -82,6 +82,7 @@ pipeline {
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
 
+                echo '[!!!] GRADLE OK ?????????!!!!!!!!!!!! ... [!!!]'
                 sh '''ls Application/Releases/beta_versions/'''
                 sh '''ls Application/Releases/release_versions'''
             }
