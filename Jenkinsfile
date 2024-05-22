@@ -92,6 +92,8 @@ pipeline {
                     sh '''cd Application
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
+                    git add Releases/*
+                    git add android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
                     git push'''
                 }
