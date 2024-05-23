@@ -20,6 +20,18 @@ pipeline {
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     }
+                        SKIP_ALL_STAGES = true
+                }
+            }
+        }
+
+        stage('TEST GIT BRANCH') {
+            steps {
+                script {
+                    withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
+                        def branche = sh "git rev-parse --abbrev-ref HEAD"
+                        echo "branche"
+                    }
                 }
             }
         }
@@ -40,36 +52,36 @@ pipeline {
             }
         }
 
-        stage('NPM Setup') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] NPM Setup ... [!!!]'
-                sh '''cd Application/
-                npm upgrade'''
-                sh '''cd Application/
-                npm install'''
-                sh '''cd Application/
-                npm audit fix'''
-            }
-        }
+        // stage('NPM Setup') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] NPM Setup ... [!!!]'
+        //         sh '''cd Application/
+        //         npm upgrade'''
+        //         sh '''cd Application/
+        //         npm install'''
+        //         sh '''cd Application/
+        //         npm audit fix'''
+        //     }
+        // }
 
-        stage('Ionic Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Ionic Build ... [!!!]'
-                // sh '''cd Application/
-                // ionic build'''
-            }
-        }
+        // stage('Ionic Build') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] Ionic Build ... [!!!]'
+        //         // sh '''cd Application/
+        //         // ionic build'''
+        //     }
+        // }
 
-        stage('Android Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                // sh '''cd Application/
-                // ionic capacitor build android'''
-            }
-        }
+        // stage('Android Build') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] Build Ionic Capacitor ... [!!!]'
+        //         // sh '''cd Application/
+        //         // ionic capacitor build android'''
+        //     }
+        // }
 
         stage('Creation Sign Bundle') {
             when { expression { SKIP_ALL_STAGES != true } }
@@ -81,6 +93,15 @@ pipeline {
                     rtGradle.tool = "Gradle"
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
+
+                echo "$$$$$$$$$$$$$ INTERNAL $$$$$$$$$$$$$"
+                sh "ls Application/Releases/internal_versions"
+                echo "$$$$$$$$$$$$$ ALPHA $$$$$$$$$$$$$"
+                sh "ls Application/Releases/alpha_versions"
+                echo "$$$$$$$$$$$$$ BETA $$$$$$$$$$$$$"
+                sh "ls Application/Releases/beta_versions"
+                echo "$$$$$$$$$$$$$ PRODUCTION $$$$$$$$$$$$$"
+                sh "ls Application/Releases/production_versions"
             }
         }
 
@@ -109,13 +130,21 @@ pipeline {
                     def VERSION_TYPE = versionProps['VERSION_TYPE'].toString()
 
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
-                    if (VERSION_TYPE == "debug") {
+                    if (VERSION_TYPE == "internal") {
                         echo 'Publishing Beta Version ...'
                         androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
-                    } else if (VERSION_TYPE == "release") {
+                    } else if (VERSION_TYPE == "alpha") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // internal/alpha/beta/production
+                        echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
+                    } else if (VERSION_TYPE == "beta") {
+                        echo 'Publishing Beta Version ...'
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'beta' // internal/alpha/beta/production
+                        echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
+                    } else if (VERSION_TYPE == "production") {
+                        echo 'Publishing Beta Version ...'
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else {
                         echo 'Publishing failed, try again looser !'

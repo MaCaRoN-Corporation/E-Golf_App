@@ -10,19 +10,33 @@ echo ""
 echo "Current Branch: $branch"
 echo ""
 
-if [ "$branch" != "main" ] && [ "$branch" != "dev" ]; then
+if [ "$branch" != "main" ] && [ "$branch" != "rqt" ] && [ "$branch" != "dev" ]; then
   echo "You can't commit directly to the $branch branch"
   exit 1
 fi
 
 if [ "$branch" = "main" ]; then
-  echo "Changing the current build version type to RELEASE"
-  sed -i 's/VERSION_TYPE=release/VERSION_TYPE=release/' ./app/version.properties.txt
-  sed -i 's/VERSION_TYPE=debug/VERSION_TYPE=release/' ./app/version.properties.txt
-fi
-
-if [ "$branch" = "dev" ]; then
-  echo "Changing the current build version type to DEBUG"
-  sed -i 's/VERSION_TYPE=release/VERSION_TYPE=debug/' ./app/version.properties.txt
-  sed -i 's/VERSION_TYPE=debug/VERSION_TYPE=debug/' ./app/version.properties.txt
+  echo "Changing the current build version type to PRODUCTION"
+  sed -i 's/VERSION_TYPE=production/VERSION_TYPE=production/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=beta/VERSION_TYPE=production/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=alpha/VERSION_TYPE=production/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=internal/VERSION_TYPE=production/' ./app/version.properties.txt
+elif [ "$branch" = "rqt" ]; then
+  echo "Changing the current build version type to BETA"
+  sed -i 's/VERSION_TYPE=production/VERSION_TYPE=beta/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=beta/VERSION_TYPE=beta/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=alpha/VERSION_TYPE=beta/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=internal/VERSION_TYPE=beta/' ./app/version.properties.txt
+elif [ "$branch" = "dev" ]; then
+  echo "Changing the current build version type to ALPHA"
+  sed -i 's/VERSION_TYPE=production/VERSION_TYPE=alpha/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=beta/VERSION_TYPE=alpha/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=alpha/VERSION_TYPE=alpha/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=internal/VERSION_TYPE=alpha/' ./app/version.properties.txt
+else
+  echo "Changing the current build version type to INTERNAL"
+  sed -i 's/VERSION_TYPE=production/VERSION_TYPE=internal/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=beta/VERSION_TYPE=internal/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=alpha/VERSION_TYPE=internal/' ./app/version.properties.txt
+  sed -i 's/VERSION_TYPE=internal/VERSION_TYPE=internal/' ./app/version.properties.txt
 fi
