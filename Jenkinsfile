@@ -14,10 +14,14 @@ pipeline {
                         }
                     }
 
+                    if (commitMessage.startsWith('/bundle')) {
+                        echo "TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!"
+                    } else if (!commitMessage.startsWith('/bundle')) {
+                        echo "FFFFFFFAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLSSSSSSSSSSSEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!"
+                    } else {
+                        echo "WTF!!!!!!!!!!!!!!!!!!!!!"
+                    }
                     echo env.BRANCH_NAME
-                    echo commitMessage.startsWith('/bundle').toString()
-                    SKIP_ALL_STAGES = true
-                    
                 }
             }
         }
