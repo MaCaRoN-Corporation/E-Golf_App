@@ -6,7 +6,16 @@ pipeline {
         stage('TEST GIT BRANCH') {
             steps {
                 script {
+                    def commitMessage
+
+                    for ( changeLogSet in currentBuild.changeSets){
+                        for (entry in changeLogSet.getItems()){
+                            commitMessage = entry.msg
+                        }
+                    }
+
                     echo env.BRANCH_NAME
+                    echo commitMessage.startsWith('/bundle')
                     SKIP_ALL_STAGES = true
                 }
             }
@@ -27,7 +36,7 @@ pipeline {
                     
                     if (commitMessage == "" || commitMessage == null) {
                         error("Commit message does not follow conventional commit format")
-                    } else if (commitMessage == "auto-publish commit") {
+                    } else if (commitMessage == "auto-publish commit" || !commitMessage.startsWith('/bundle')) {
                         SKIP_ALL_STAGES = true
                     }
                 }
