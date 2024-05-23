@@ -15,6 +15,8 @@ pipeline {
                             commitMessage = entry.msg
                         }
                     }
+
+                    echo env.BRANCH_NAME
                     
                     if (commitMessage == "" || commitMessage == null) {
                         error("Commit message does not follow conventional commit format")
