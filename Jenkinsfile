@@ -6,21 +6,6 @@ pipeline {
         stage('TEST GIT BRANCH') {
             steps {
                 script {
-                    def commitMessage
-
-                    for ( changeLogSet in currentBuild.changeSets){
-                        for (entry in changeLogSet.getItems()){
-                            commitMessage = entry.msg
-                        }
-                    }
-
-                    if (commitMessage.startsWith('/bundle')) {
-                        echo "TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUEEEEEEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!"
-                    } else if (!commitMessage.startsWith('/bundle')) {
-                        echo "FFFFFFFAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLSSSSSSSSSSSEEEEEEEEEEEE!!!!!!!!!!!!!!!!!!"
-                    } else {
-                        echo "WTF!!!!!!!!!!!!!!!!!!!!!"
-                    }
                     echo env.BRANCH_NAME
                     SKIP_ALL_STAGES = true
                 }
