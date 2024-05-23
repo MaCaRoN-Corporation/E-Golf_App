@@ -5,8 +5,10 @@ pipeline {
     stages {
         stage('TEST GIT BRANCH') {
             steps {
-                echo env.BRANCH_NAME
-                SKIP_ALL_STAGES = true
+                script {
+                    echo env.BRANCH_NAME
+                    SKIP_ALL_STAGES = true
+                }
             }
         }
 
