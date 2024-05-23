@@ -50,20 +50,38 @@ setProperty("archivesBaseName", "E-Golf App v." + _versionName)
 //   variant.outputs.all {
 //     def taskSuffix = variant.name.capitalize()
 //     def copyAABTask = tasks.create(name: "archiveAab${taskSuffix}", type: Copy) {
-//       from("${projectDir}") {
-//         include "/build/outputs/bundle/release/E-Golf App v." + _versionName + "-release.aab"
-//       }
-//       into {
-//         if (_versionType == "debug") {
-//           //variant.buildType.name == "debug"
-//           "../../Releases/beta_version/"
-//         } else if (_versionType == "release") {
-//           //variant.buildType.name == "release"
-//           "../../Releases/release_version/"
+//         from("${projectDir}") {
+//           include "/build/outputs/bundle/release/E-Golf App v." + _versionName + "-release.aab"
 //         }
+//         into {
+//           if (_versionType == "internal") {
+//             //variant.buildType.name == "internal"
+//             "../../Releases/internal_versions/"
+//           } else if (_versionType == "alpha") {
+//             //variant.buildType.name == "alpha"
+//             "../../Releases/alpha_versions/"
+//           } else if (_versionType == "beta") {
+//             //variant.buildType.name == "beta"
+//             "../../Releases/beta_versions/"
+//           } else if (_versionType == "production") {
+//             //variant.buildType.name == "production"
+//             "../../Releases/production_versions/"
+//           }
+//         }
+//         eachFile { file -> file.path = file.name }
+//         includeEmptyDirs = false
+//     }
+
+//     copyAABTask.doFirst {
+//       if (_versionType == "internal") {
+//         ant.move(file: "../../Releases/internal_versions", tofile: "../../Releases/internal_versions/old_version", flatten: "true", includeEmptyDirs: "false")
+//       } else if (_versionType == "alpha") {
+//         ant.move(file: "../../Releases/alpha_versions", tofile: "../../Releases/alpha_versions/old_version", flatten: "true", includeEmptyDirs: "false")
+//       } else if (_versionType == "beta") {
+//         ant.move(file: "../../Releases/beta_versions", tofile: "../../Releases/beta_versions/old_version", flatten: "true", includeEmptyDirs: "false")
+//       } else if (_versionType == "production") {
+//         ant.move(file: "../../Releases/production_versions", tofile: "../../Releases/production_versions/old_version", flatten: "true", includeEmptyDirs: "false")
 //       }
-//       eachFile { file -> file.path = file.name }
-//       includeEmptyDirs = false
 //     }
 
 //     def bundleTaskName = "bundle${taskSuffix}"
