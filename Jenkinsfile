@@ -130,11 +130,11 @@ pipeline {
                     echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                     if (VERSION_TYPE == "internal") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/internal_versions/*-release.aab', rolloutPercentage: '100', trackName: 'internal' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else if (VERSION_TYPE == "alpha") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/alpha_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else if (VERSION_TYPE == "beta") {
                         echo 'Publishing Beta Version ...'
@@ -142,7 +142,7 @@ pipeline {
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else if (VERSION_TYPE == "production") {
                         echo 'Publishing Beta Version ...'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/release_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
+                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/production_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
                         echo '[!!!] Sign Bundle Version Publishing --> Done [!!!]'
                     } else {
                         echo 'Publishing failed, try again looser !'
