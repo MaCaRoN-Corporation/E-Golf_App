@@ -29,8 +29,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                        def branche = sh "git rev-parse --abbrev-ref HEAD"
-                        echo "branche"
+                        sh "git rev-parse --abbrev-ref HEAD"
+                        echo env.BRANCH_NAME
                     }
                 }
             }
