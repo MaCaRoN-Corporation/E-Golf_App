@@ -3,7 +3,15 @@ pipeline {
     agent any
 
     stages {
+        stage('TEST GIT BRANCH') {
+            steps {
+                echo env.BRANCH_NAME
+                SKIP_ALL_STAGES = true
+            }
+        }
+
         stage('Check Auth Commit') {
+            when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
                     echo '[!!!] Check Auth Commit [!!!]'
@@ -20,14 +28,7 @@ pipeline {
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     }
-                        SKIP_ALL_STAGES = true
                 }
-            }
-        }
-
-        stage('TEST GIT BRANCH') {
-            steps {
-                echo env.BRANCH_NAME
             }
         }
 
