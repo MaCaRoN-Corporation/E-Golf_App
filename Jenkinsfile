@@ -27,12 +27,7 @@ pipeline {
 
         stage('TEST GIT BRANCH') {
             steps {
-                script {
-                    withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                        sh "git rev-parse --abbrev-ref HEAD"
-                        echo env.BRANCH_NAME
-                    }
-                }
+                echo env.BRANCH_NAME
             }
         }
 
