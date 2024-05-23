@@ -55,25 +55,7 @@ pipeline {
                 npm audit fix'''
             }
         }
-
-        stage('Ionic Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Ionic Build ... [!!!]'
-                // sh '''cd Application/
-                // ionic build'''
-            }
-        }
-
-        stage('Android Build') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] Build Ionic Capacitor ... [!!!]'
-                // sh '''cd Application/
-                // ionic capacitor build android'''
-            }
-        }
-
+        
         stage('Creation Sign Bundle') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
@@ -84,15 +66,6 @@ pipeline {
                     rtGradle.tool = "Gradle"
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
-
-                echo "!!!!!!!!!!!!! INTERNAL !!!!!!!!!!!!!"
-                sh "ls Application/Releases/internal_versions"
-                echo "!!!!!!!!!!!!! ALPHA !!!!!!!!!!!!!"
-                sh "ls Application/Releases/alpha_versions"
-                echo "!!!!!!!!!!!!! BETA !!!!!!!!!!!!!"
-                sh "ls Application/Releases/beta_versions"
-                echo "!!!!!!!!!!!!! PRODUCTION !!!!!!!!!!!!!"
-                sh "ls Application/Releases/production_versions"
             }
         }
 
@@ -107,7 +80,7 @@ pipeline {
                     git add Releases/*
                     git add android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push'''
+                    git push origin --all'''
                 }
             }
         }
