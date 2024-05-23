@@ -91,6 +91,7 @@ lint/tmp/
 
 # Cordova plugins for Capacitor
 capacitor-cordova-android-plugins
+Sdk
 
 # Copied web assets
 app/src/main/assets/public

@@ -4,16 +4,16 @@
 
 # Branch
 branch="$(git rev-parse --abbrev-ref HEAD)"
-branch="dev"
+# branch="dev"
 
 echo ""
 echo "Current Branch: $branch"
 echo ""
 
-if [ "$branch" != "main" ] && [ "$branch" != "rqt" ] && [ "$branch" != "dev" ]; then
-  echo "You can't commit directly to the $branch branch"
-  exit 1
-fi
+# if [ "$branch" != "main" ] && [ "$branch" != "rqt" ] && [ "$branch" != "dev" ]; then
+#   echo "You can't commit directly to the $branch branch"
+#   exit 1
+# fi
 
 if [ "$branch" = "main" ]; then
   echo "Changing the current build version type to PRODUCTION"
