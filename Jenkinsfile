@@ -22,6 +22,7 @@ pipeline {
                         echo "WTF!!!!!!!!!!!!!!!!!!!!!"
                     }
                     echo env.BRANCH_NAME
+                    SKIP_ALL_STAGES = true
                 }
             }
         }
