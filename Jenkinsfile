@@ -94,13 +94,13 @@ pipeline {
                     rtGradle.run rootDir: "Application/android/app/", tasks: 'bundleRelease' //prepareBundle
                 }
 
-                echo "$$$$$$$$$$$$$ INTERNAL $$$$$$$$$$$$$"
+                echo "!!!!!!!!!!!!! INTERNAL !!!!!!!!!!!!!"
                 sh "ls Application/Releases/internal_versions"
-                echo "$$$$$$$$$$$$$ ALPHA $$$$$$$$$$$$$"
+                echo "!!!!!!!!!!!!! ALPHA !!!!!!!!!!!!!"
                 sh "ls Application/Releases/alpha_versions"
-                echo "$$$$$$$$$$$$$ BETA $$$$$$$$$$$$$"
+                echo "!!!!!!!!!!!!! BETA !!!!!!!!!!!!!"
                 sh "ls Application/Releases/beta_versions"
-                echo "$$$$$$$$$$$$$ PRODUCTION $$$$$$$$$$$$$"
+                echo "!!!!!!!!!!!!! PRODUCTION !!!!!!!!!!!!!"
                 sh "ls Application/Releases/production_versions"
             }
         }
