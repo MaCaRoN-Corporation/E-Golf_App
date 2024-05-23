@@ -17,6 +17,7 @@ pipeline {
                     echo env.BRANCH_NAME
                     echo commitMessage.startsWith('/bundle').toString()
                     SKIP_ALL_STAGES = true
+                    
                 }
             }
         }
