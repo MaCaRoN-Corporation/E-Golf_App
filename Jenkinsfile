@@ -32,6 +32,7 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
+                    sh "git remote -v"
                     sh "git remote set-url origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
                     sh "git remote -v"
                     error("NOP !")
