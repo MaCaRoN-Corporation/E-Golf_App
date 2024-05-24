@@ -47,18 +47,18 @@ pipeline {
             }
         }
 
-        stage('NPM Setup') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] NPM Setup ... [!!!]'
-                sh '''cd Application/
-                npm upgrade'''
-                sh '''cd Application/
-                npm install'''
-                sh '''cd Application/
-                npm audit fix'''
-            }
-        }
+        // stage('NPM Setup') {
+        //     when { expression { SKIP_ALL_STAGES != true } }
+        //     steps {
+        //         echo '[!!!] NPM Setup ... [!!!]'
+        //         sh '''cd Application/
+        //         npm upgrade'''
+        //         sh '''cd Application/
+        //         npm install'''
+        //         sh '''cd Application/
+        //         npm audit fix'''
+        //     }
+        // }
 
         stage('Creation Sign Bundle') {
             when { expression { SKIP_ALL_STAGES != true } }
