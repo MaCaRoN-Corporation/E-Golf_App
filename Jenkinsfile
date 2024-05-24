@@ -18,8 +18,7 @@ pipeline {
 
                     echo env.BRANCH_NAME
                     if (commitMessage == "" || commitMessage == null) {
-                        echo "Commit message does not follow conventional commit format"
-                        SKIP_ALL_STAGES = true
+                        error("Commit message does not follow conventional commit format")
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     } else if (!commitMessage.startsWith('/bundle') && env.BRANCH_NAME != "main" && env.BRANCH_NAME != "rqt" && env.BRANCH_NAME != "dev") {
