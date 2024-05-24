@@ -32,11 +32,6 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                    sh "git remote -v"
-                    sh "git remote set-url origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
-                    sh "git remote -v"
-                    error("NOP !")
-                    
                     sh "git pull"
 
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
@@ -71,7 +66,7 @@ pipeline {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh '''cd Application
-                    git remote set-url origin config https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
+                    git remote set-url origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
                     git add Releases/*
