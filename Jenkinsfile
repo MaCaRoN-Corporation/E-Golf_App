@@ -32,9 +32,11 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                    sh '''cd Application
-                    git config --global --add --bool push.autoSetupRemote true
-                    git pull'''
+                    sh "git pull"
+
+                    sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
+                    sh "mv -n E-Golf_App-Releases/* Application/"
+                    sh "rm -rf E-Golf_App-Releases/"
 
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
                     sh "mv -n E-Golf_App-Dependencies/Application/* Application/"
@@ -82,7 +84,7 @@ pipeline {
                     git add Releases/*
                     git add android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push origin --all'''
+                    git push'''
                 }
             }
         }
