@@ -76,6 +76,7 @@ pipeline {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh '''cd Application
+                    git remote set-url origin config https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
                     git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
                     git add Releases/*
