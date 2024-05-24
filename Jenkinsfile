@@ -67,12 +67,11 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh '''cd Application
                     git remote set-url origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
-                    git config --global --add --bool push.autoSetupRemote true
                     git config advice.addIgnoredFile false
                     git add --force Releases/*
                     git add --force android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push'''
+                    git push origin main'''
                 }
             }
         }
