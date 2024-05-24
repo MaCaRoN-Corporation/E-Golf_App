@@ -71,7 +71,7 @@ pipeline {
                     git add --force Releases/*
                     git add --force android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push origin main'''
+                    git push origin master'''
                 }
             }
         }
