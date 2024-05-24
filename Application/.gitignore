@@ -68,3 +68,5 @@ testem.log
 Thumbs.db
 
 /SDK
+/Releases
+/android/app/version.properties.txt

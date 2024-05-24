@@ -36,6 +36,7 @@ pipeline {
 
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
                     sh "mv -n E-Golf_App-Releases/* Application/"
+                    sh "mv -n E-Golf_App-Releases/android/app/* Application/android/app"
                     sh "rm -rf E-Golf_App-Releases/"
 
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
