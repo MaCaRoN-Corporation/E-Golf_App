@@ -64,14 +64,32 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
+                // withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
+                //     sh '''cd Application
+                //     git remote set-url --add --push origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
+                //     git config advice.addIgnoredFile false
+                //     git add --force Releases/*
+                //     git add --force android/app/version.properties.txt
+                //     git commit -m \"auto-publish commit\"
+                //     git push https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git'''
+                // }
+
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                    sh '''cd Application
-                    git remote set-url origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
-                    git config advice.addIgnoredFile false
-                    git add --force Releases/*
-                    git add --force android/app/version.properties.txt
+                    sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
+                    sh "rm -rf E-Golf_App-Releases/Releases/"
+                    sh "rm -rf E-Golf_App-Releases/android/"
+
+                    sh "cp Application/Releases/ E-Golf_App-Releases/"
+                    sh "cp Application/android/app/version.properties.txt E-Golf_App-Releases/android/app/"
+
+                    sh '''cd E-Golf_App-Releases
+                    git add Releases/*
+                    git add android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push'''
+                    git push
+                    '''
+
+                    sh "rm -rf E-Golf_App-Releases/"
                 }
             }
         }
