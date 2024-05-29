@@ -18,8 +18,7 @@ pipeline {
 
                     echo env.BRANCH_NAME
                     if (commitMessage == "" || commitMessage == null) {
-                        // error("Commit message does not follow conventional commit format")
-                        timeout(time: 5, unit: 'SECONDS') {
+                        timeout(time: 5, unit: 'MINUTES') {
                             input message:'Lancement manuel détecté. Lancer un déploiement complet ?'
                         }
                     } else if (commitMessage == "auto-publish commit") {
