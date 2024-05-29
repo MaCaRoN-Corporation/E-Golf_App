@@ -82,6 +82,8 @@ pipeline {
                     sh "rm -rf E-Golf_App-Releases/android/"
 
                     sh "cp -r Application/Releases/ E-Golf_App-Releases/"
+                    sh "mkdir E-Golf_App-Releases/android/"
+                    sh "mkdir E-Golf_App-Releases/android/app/"
                     sh "cp Application/android/app/version.properties.txt E-Golf_App-Releases/android/app/"
 
                     sh '''cd E-Golf_App-Releases
@@ -118,11 +120,13 @@ pipeline {
                         echo '[!!!!!!!!!!!!!!!!!!] BETA VERSION [!!!!!!!!!!!!!!!!!!!]'
                         echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                         echo '[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]'
+                        // timeout(time: 5, unit: 'MINUTES') { input message:'Voulez-vous vraiment livrer en TEST OUVERT ?' }
                         // androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'beta' // internal/alpha/beta/production
                     } else if (VERSION_TYPE == "production") {
                         echo '[!!!!!!!!!!!!!!!] PRODUCTION VERSION [!!!!!!!!!!!!!!!!]'
                         echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                         echo '[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]'
+                        // timeout(time: 5, unit: 'MINUTES') { input message:'Voulez-vous vraiment livrer en PRODUCTION ?' }
                         // androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/production_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
                     } else {
                         echo 'Publishing failed, try again looser !'
