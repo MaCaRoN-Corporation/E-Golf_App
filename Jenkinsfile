@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Auth Commit') {
+        stage('AUTHENTIFICATION CHECK') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
@@ -18,9 +18,9 @@ pipeline {
 
                     echo env.BRANCH_NAME
                     if (commitMessage == "" || commitMessage == null) {
-                        error("Commit message does not follow conventional commit format")
-                    } else if (commitMessage == "auto-publish commit") {
-                        SKIP_ALL_STAGES = true
+                        timeout(time: 5, unit: 'MINUTES') {
+                            input message:'Lancement manuel détecté. Lancer un déploiement complet ?'
+                        }
                     } else if (!commitMessage.startsWith('/bundle') && env.BRANCH_NAME != "main" && env.BRANCH_NAME != "rqt" && env.BRANCH_NAME != "dev") {
                         SKIP_ALL_STAGES = true
                     }
@@ -28,13 +28,16 @@ pipeline {
             }
         }
 
-        stage('GIT PULL & SYNC GIT DEPENDENCIES') {
+        stage('GIT PULL & SYNC') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                    sh '''cd Application
-                    git config --global --add --bool push.autoSetupRemote true
-                    git pull'''
+                    sh "git pull"
+
+                    sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
+                    sh "mv -n E-Golf_App-Releases/* Application/"
+                    sh "mv -n E-Golf_App-Releases/android/app/* Application/android/app"
+                    sh "rm -rf E-Golf_App-Releases/"
 
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Dependencies.git"
                     sh "mv -n E-Golf_App-Dependencies/Application/* Application/"
@@ -44,24 +47,10 @@ pipeline {
             }
         }
 
-        stage('NPM Setup') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                echo '[!!!] NPM Setup ... [!!!]'
-                sh '''cd Application/
-                npm upgrade'''
-                sh '''cd Application/
-                npm install'''
-                sh '''cd Application/
-                npm audit fix'''
-            }
-        }
-
-        stage('Creation Sign Bundle') {
+        stage('SIGN BUNDLE CREATION') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
-
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
@@ -75,18 +64,28 @@ pipeline {
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                    sh '''cd Application
-                    git config --global --add --bool push.autoSetupRemote true
-                    git config advice.addIgnoredFile false
+                    sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
+                    sh "rm -rf E-Golf_App-Releases/Releases/"
+                    sh "rm -rf E-Golf_App-Releases/android/"
+
+                    sh "cp -r Application/Releases/ E-Golf_App-Releases/"
+                    sh "mkdir E-Golf_App-Releases/android/"
+                    sh "mkdir E-Golf_App-Releases/android/app/"
+                    sh "cp Application/android/app/version.properties.txt E-Golf_App-Releases/android/app/"
+
+                    sh '''cd E-Golf_App-Releases
                     git add Releases/*
                     git add android/app/version.properties.txt
                     git commit -m \"auto-publish commit\"
-                    git push origin --all'''
+                    git push
+                    '''
+
+                    sh "rm -rf E-Golf_App-Releases/"
                 }
             }
         }
 
-        stage('Upload to Play Store') {
+        stage('PLAY STORE UPLOAD') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
@@ -108,12 +107,14 @@ pipeline {
                         echo '[!!!!!!!!!!!!!!!!!!] BETA VERSION [!!!!!!!!!!!!!!!!!!!]'
                         echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                         echo '[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // internal/alpha/beta/production
+                        // timeout(time: 5, unit: 'MINUTES') { input message:'Voulez-vous vraiment livrer en TEST OUVERT ?' }
+                        // androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/beta_versions/*-release.aab', rolloutPercentage: '100', trackName: 'beta' // internal/alpha/beta/production
                     } else if (VERSION_TYPE == "production") {
                         echo '[!!!!!!!!!!!!!!!] PRODUCTION VERSION [!!!!!!!!!!!!!!!!]'
                         echo '[!!!] Publishing Android Bundle in Play Store ... [!!!]'
                         echo '[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]'
-                        androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/production_versions/*-release.aab', rolloutPercentage: '100', trackName: 'alpha' // internal/alpha/beta/production
+                        // timeout(time: 5, unit: 'MINUTES') { input message:'Voulez-vous vraiment livrer en PRODUCTION ?' }
+                        // androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/production_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
                     } else {
                         echo 'Publishing failed, try again looser !'
                     }
