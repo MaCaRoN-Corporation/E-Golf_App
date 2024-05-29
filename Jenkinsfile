@@ -18,7 +18,10 @@ pipeline {
 
                     echo env.BRANCH_NAME
                     if (commitMessage == "" || commitMessage == null) {
-                        error("Commit message does not follow conventional commit format")
+                        // error("Commit message does not follow conventional commit format")
+                        timeout(time: 5, unit: 'SECONDS') {
+                            input message:'Lancement manuel détecté. Lancer un déploiement complet ?'
+                        }
                     } else if (commitMessage == "auto-publish commit") {
                         SKIP_ALL_STAGES = true
                     } else if (!commitMessage.startsWith('/bundle') && env.BRANCH_NAME != "main" && env.BRANCH_NAME != "rqt" && env.BRANCH_NAME != "dev") {
