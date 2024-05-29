@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Auth Commit') {
+        stage('AUTHENTIFICATION CHECK') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
@@ -28,7 +28,7 @@ pipeline {
             }
         }
 
-        stage('GIT PULL & SYNC GIT DEPENDENCIES') {
+        stage('GIT PULL & SYNC') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
@@ -47,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Creation Sign Bundle') {
+        stage('SIGN BUNDLE CREATION') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
@@ -79,7 +79,7 @@ pipeline {
                     sh "rm -rf E-Golf_App-Releases/Releases/"
                     sh "rm -rf E-Golf_App-Releases/android/"
 
-                    sh "cp Application/Releases/ E-Golf_App-Releases/"
+                    sh "cp -r Application/Releases/ E-Golf_App-Releases/"
                     sh "cp Application/android/app/version.properties.txt E-Golf_App-Releases/android/app/"
 
                     sh '''cd E-Golf_App-Releases
@@ -94,7 +94,7 @@ pipeline {
             }
         }
 
-        stage('Upload to Play Store') {
+        stage('PLAY STORE UPLOAD') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 script {
