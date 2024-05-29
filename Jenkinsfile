@@ -21,8 +21,6 @@ pipeline {
                         timeout(time: 5, unit: 'MINUTES') {
                             input message:'Lancement manuel détecté. Lancer un déploiement complet ?'
                         }
-                    } else if (commitMessage == "auto-publish commit") {
-                        SKIP_ALL_STAGES = true
                     } else if (!commitMessage.startsWith('/bundle') && env.BRANCH_NAME != "main" && env.BRANCH_NAME != "rqt" && env.BRANCH_NAME != "dev") {
                         SKIP_ALL_STAGES = true
                     }
@@ -53,7 +51,6 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Moving old version into folder & Creation of new Sign Bundle AAB ... [!!!]'
-
                 script {
                     def rtGradle = Artifactory.newGradleBuild()
                     rtGradle.tool = "Gradle"
@@ -66,16 +63,6 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 echo '[!!!] Commiting and pushing... [!!!]'
-                // withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
-                //     sh '''cd Application
-                //     git remote set-url --add --push origin https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git
-                //     git config advice.addIgnoredFile false
-                //     git add --force Releases/*
-                //     git add --force android/app/version.properties.txt
-                //     git commit -m \"auto-publish commit\"
-                //     git push https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git'''
-                // }
-
                 withCredentials([gitUsernamePassword(credentialsId: 'GitHub_MaCaRoN', gitToolName: 'Default')]) {
                     sh "git clone https://github.com/MaCaRoN-Corporation/E-Golf_App-Releases.git"
                     sh "rm -rf E-Golf_App-Releases/Releases/"
