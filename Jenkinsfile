@@ -31,10 +31,11 @@ pipeline {
         stage('TEST') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
-                sh "ionic cordova plugin rm cordova-plugin-ionic-webview"
-                sh "ionic cordova platforms remove android"
-                sh "cordova plugin add cordova-plugin-ionic-webview"
-                sh "npm install @ionic-native/ionic-webview"
+                sh '''cd Application/
+                ionic cordova plugin rm cordova-plugin-ionic-webview"
+                ionic cordova platforms remove android
+                cordova plugin add cordova-plugin-ionic-webview
+                npm install @ionic-native/ionic-webview'''
             }
         }
 
