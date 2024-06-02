@@ -28,6 +28,16 @@ pipeline {
             }
         }
 
+        stage('TEST') {
+            when { expression { SKIP_ALL_STAGES != true } }
+            steps {
+                sh "ionic cordova plugin rm cordova-plugin-ionic-webview"
+                sh "ionic cordova platforms remove android"
+                sh "cordova plugin add cordova-plugin-ionic-webview"
+                sh "npm install @ionic-native/ionic-webview"
+            }
+        }
+
         stage('GIT PULL & SYNC') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
