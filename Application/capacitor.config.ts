@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'E-Golf App',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    cleartext: true
   },
   SplashScreen: {
     launchAutoHide: true,
