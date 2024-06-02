@@ -28,22 +28,6 @@ pipeline {
             }
         }
 
-        stage('TEST') {
-            when { expression { SKIP_ALL_STAGES != true } }
-            steps {
-                // sh '''cd Application/
-                // ionic cordova plugin rm cordova-plugin-ionic-webview
-                // ionic cordova platforms remove android
-                // cordova plugin add cordova-plugin-ionic-webview
-                // npm install @ionic-native/ionic-webview'''
-
-                sh '''cd Application/
-                ionic build
-                ionic capacitor build android
-                '''
-            }
-        }
-
         stage('GIT PULL & SYNC') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
@@ -60,6 +44,22 @@ pipeline {
                     sh "mv -n E-Golf_App-Dependencies/Application/android/* Application/android"
                     sh "rm -rf E-Golf_App-Dependencies/"
                 }
+            }
+        }
+
+        stage('TEST') {
+            when { expression { SKIP_ALL_STAGES != true } }
+            steps {
+                // sh '''cd Application/
+                // ionic cordova plugin rm cordova-plugin-ionic-webview
+                // ionic cordova platforms remove android
+                // cordova plugin add cordova-plugin-ionic-webview
+                // npm install @ionic-native/ionic-webview'''
+
+                sh '''cd Application/
+                ionic build
+                ionic capacitor build android
+                '''
             }
         }
 
