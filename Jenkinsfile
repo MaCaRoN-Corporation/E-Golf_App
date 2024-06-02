@@ -32,7 +32,7 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 sh '''cd Application/
-                ionic cordova plugin rm cordova-plugin-ionic-webview"
+                ionic cordova plugin rm cordova-plugin-ionic-webview
                 ionic cordova platforms remove android
                 cordova plugin add cordova-plugin-ionic-webview
                 npm install @ionic-native/ionic-webview'''
