@@ -24,11 +24,11 @@ allprojects {
   }
 }
 
-tasks.register('clean', Delete) {
+task("clean", Delete) {
   delete rootProject.buildDir
 }
 
-tasks.register('prepareBundle') {
+task("prepareBundle") {
   println("⚈ ⚈ ⚈ Running prepareBundle ⚈ ⚈ ⚈")
   exec {
     commandLine("sh", "./.scripts/edit-properties.sh")

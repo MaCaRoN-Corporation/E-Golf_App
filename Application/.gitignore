@@ -71,3 +71,4 @@ Thumbs.db
 /Releases
 /.vscode
 /android/app/version.properties.txt
+/android/local.properties
