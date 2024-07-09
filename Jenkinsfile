@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-
+      
         // stage('TEST') {
         //     when { expression { SKIP_ALL_STAGES != true } }
         //     steps {
@@ -62,7 +62,7 @@ pipeline {
         //         '''
         //     }
         // }
-
+      
         stage('SIGN BUNDLE CREATION') {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
