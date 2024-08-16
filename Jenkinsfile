@@ -51,8 +51,8 @@ pipeline {
             when { expression { SKIP_ALL_STAGES != true } }
             steps {
                 sh '''cd Application/
-                ionic cordova platforms remove android
-                ionic cordova platforms add android@latest'''
+                ionic cordova platform remove android
+                ionic cordova platform add android@latest'''
                 // ionic cordova plugin rm cordova-plugin-ionic-webview
                 // cordova plugin add cordova-plugin-ionic-webview
                 // npm install @ionic-native/ionic-webview'''
