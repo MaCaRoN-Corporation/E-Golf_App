@@ -134,6 +134,7 @@ pipeline {
                         // androidApkUpload googleCredentialsId: 'Google_Play_Store', apkFilesPattern: 'Application/Releases/production_versions/*-release.aab', rolloutPercentage: '100', trackName: 'production' // internal/alpha/beta/production
                     } else {
                         echo 'Publishing failed, try again looser !'
+                        
                     }
                 }
             }
